@@ -1,13 +1,21 @@
 version: '3.4'
 
+volumes:
+  postgres_data:
+      driver: local
+
 services:
   kweet:
-    image: ${DOCKER_REGISTRY-}kweet
+    image: ${DOCKER_REGISTRY-}kweetservice
     ports: 
         - "5050:80"
     build:
       context: .
-      dockerfile: Kweet/Dockerfile
+      dockerfile: KweetService/Dockerfile
+    depends_on:
+      - db
+    networks:
+      - common-net
   phpmyadmin:
     image: phpmyadmin
     restart: always
@@ -23,3 +31,35 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: example
+    networks:
+      - common-net
+  postgres:
+      image: postgres
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+  keycloak:
+      image: quay.io/keycloak/keycloak:legacy
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: password
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Pa55w0rd
+        KEYCLOAK_FRONTEND_URL: http://localhost:8081/auth
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
+        #JDBC_PARAMS: "ssl=true"
+      ports:
+        - 8081:8080
+      depends_on:
+        - postgres
+
+networks:
+  common-net:
+    driver: bridge
