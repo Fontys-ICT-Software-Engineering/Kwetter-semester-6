@@ -16,3 +16,16 @@ C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backen
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\KweetService.pdb
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\obj\Debug\docker-compose.dcproj.CopyComplete
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.IdentityModel.Logging.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.deps.json
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.runtimeconfig.json
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.exe
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.pdb
