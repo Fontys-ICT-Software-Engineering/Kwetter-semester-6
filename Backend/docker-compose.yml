@@ -1,9 +1,5 @@
 version: '3.4'
 
-volumes:
-  postgres_data:
-      driver: local
-
 services:
   kweet:
     image: ${DOCKER_REGISTRY-}kweetservice
@@ -14,8 +10,6 @@ services:
       dockerfile: KweetService/Dockerfile
     depends_on:
       - db
-    networks:
-      - common-net
   Auth:
     image: ${DOCKER_REGISTRY-}authservice
     ports: 
@@ -25,8 +19,6 @@ services:
       dockerfile: AuthService/Dockerfile
     depends_on:
       - db
-    networks:
-      - common-net
   phpmyadmin:
     image: phpmyadmin
     restart: always
@@ -42,16 +34,4 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: example
-    networks:
-      - common-net
-  postgres:
-      image: postgres
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
-networks:
-  common-net:
-    driver: bridge
+

@@ -7,5 +7,7 @@ namespace AuthService.Services.Authentication
         public Task<List<UserDTO>> GetAllUsers();
 
         public Task<CreateUserDTO> Register(CreateUserDTO userDTO);
+
+        public Task<TokenDTO> GenerateToken(LoginDTO dto);
     }
 }

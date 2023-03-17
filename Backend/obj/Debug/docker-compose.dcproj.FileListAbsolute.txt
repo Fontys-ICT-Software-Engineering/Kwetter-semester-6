@@ -29,3 +29,8 @@ C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backen
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.exe
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.dll
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.pdb
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Microsoft.OpenApi.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Swashbuckle.AspNetCore.Filters.Abstractions.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\Scrutor.dll

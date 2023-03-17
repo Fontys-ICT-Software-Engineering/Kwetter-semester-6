@@ -1,6 +1,7 @@
 ﻿using AuthService.Data;
 using AuthService.DTOs;
 using AuthService.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Services.Authentication
@@ -9,10 +10,12 @@ namespace AuthService.Services.Authentication
     {
 
         private readonly DataContext _dataContext;
+        private readonly IConfiguration _configuration;
 
-        public AuthenticationService(DataContext context)
+        public AuthenticationService(DataContext context, IConfiguration configuration)
         {
             _dataContext = context;
+            _configuration = configuration;
         }
 
         public async Task<List<UserDTO>> GetAllUsers()
@@ -52,6 +55,26 @@ namespace AuthService.Services.Authentication
             return register;
         }
 
+        public async Task<TokenDTO> GenerateToken(LoginDTO dto)
+        {
+            User user = _dataContext.users.Single(u => u.UserName == dto.Username);
+            TokenDTO token = new TokenDTO();
+
+            TokenManager man = new TokenManager(_configuration);
+
+            try
+            {
+                if (!user.Password.Equals(dto.Password)) throw new Exception();
+
+                token.Token = man.CreateToken(dto.Username).ToString();
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return token;
+        }
 
     }
 }
