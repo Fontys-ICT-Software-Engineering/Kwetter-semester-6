@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kweet.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class KweetController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace Kweet.Controllers
             _kweetService = kweetService;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetAllKweets")]
         public async Task<ActionResult<List<KweetDTO>>> getAllKweets()
         {
             try
@@ -33,13 +33,7 @@ namespace Kweet.Controllers
 
         }
 
-        [HttpGet("/test")]
-        public async Task<ActionResult<string>> test()
-        {
-            return "dit werkt wel";
-        }
-
-        [HttpPost]
+        [HttpPost(Name = "PostKeet")]
         public async Task<ActionResult<KweetDTO>> postKweet(KweetDTO dto)
         {
             KweetDTO response = new KweetDTO(); 
@@ -58,7 +52,7 @@ namespace Kweet.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete(Name = "DeleteKweet")]
         public async Task<ActionResult<string>> deleteKweet(int id)
         {
             try
@@ -72,7 +66,7 @@ namespace Kweet.Controllers
             }
         }
 
-        [HttpGet("/id")]
+        [HttpGet("/id", Name = "GetKweetById")]
         public async Task<ActionResult<KweetDTO>> findById(int id)
         {
             try
@@ -86,15 +80,5 @@ namespace Kweet.Controllers
                 return NotFound(ex.Message);
             }
         }
-
-
-        [HttpGet("/authenticate")]
-        [Authorize(Policy = "admins")]
-        public IActionResult Authenticate()
-        {
-            return Ok();
-        }
-
-
     }
 }

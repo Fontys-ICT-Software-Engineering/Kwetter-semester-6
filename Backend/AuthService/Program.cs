@@ -1,5 +1,3 @@
-using AuthService.Authentication;
-using AuthService.Authentication.OptionsSetup;
 using AuthService.Data;
 using AuthService.Services.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -34,8 +32,6 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-
-
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,

@@ -44,6 +44,7 @@ namespace AuthService.Services.Authentication
 
             try
             {
+                if (_dataContext.users.Any(u => u.UserName == user.UserName)) throw new Exception();
                 _dataContext.users.Add(user);
                 _dataContext.SaveChanges();
             }
@@ -66,7 +67,7 @@ namespace AuthService.Services.Authentication
             {
                 if (!user.Password.Equals(dto.Password)) throw new Exception();
 
-                token.Token = man.CreateToken(dto.Username).ToString();
+                token.Token = man.CreateToken(dto.Username, user.Role).ToString();
 
             }
             catch (Exception ex)

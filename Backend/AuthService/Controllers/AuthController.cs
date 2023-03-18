@@ -1,4 +1,3 @@
-using AuthService.Authentication;
 using AuthService.DTOs;
 using AuthService.Models;
 using AuthService.Services.Authentication;
@@ -25,7 +24,7 @@ namespace AuthService.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetAllUsers")]
         public async Task<ActionResult<string>> getAllUsers()
         {
             try
@@ -40,7 +39,7 @@ namespace AuthService.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/register", Name = "RegisterUser")]
         public async Task<ActionResult<CreateUserDTO>> createUser(CreateUserDTO dto)
         {
             try
@@ -54,7 +53,7 @@ namespace AuthService.Controllers
             }
         }
 
-        [HttpPost("/login")]
+        [HttpPost("/login", Name = "Login")]
         public async Task<ActionResult<TokenDTO>> Login(LoginDTO dto)
         {
             TokenDTO token = new TokenDTO();
@@ -71,36 +70,18 @@ namespace AuthService.Controllers
             }
         }
 
-        private string CreateToken(User user)
+        [HttpGet("/validate", Name = "ValidateUser")]
+        [Authorize]
+        public async Task<ActionResult<string>> validateUser()
         {
-            List<Claim> claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName)
-            };
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
-
-            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddHours(1),
-                    signingCredentials: cred
-                    );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
+            return Ok("user Validated!");
         }
 
-
-
-
-        [HttpGet("/validate")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<ActionResult<string>> validate()
+        [HttpGet("/validate/admin", Name = "ValidateAdmin")]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult<string>> validateAdmin()
         {
-            return Ok("this works!");
+            return Ok("user Validated!");
         }
     }
 }

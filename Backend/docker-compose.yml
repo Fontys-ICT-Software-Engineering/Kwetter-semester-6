@@ -5,9 +5,9 @@ services:
     image: ${DOCKER_REGISTRY-}kweetservice
     ports: 
         - "5050:80"
-    build:
+    build: 
       context: .
-      dockerfile: KweetService/Dockerfile
+      dockerfile: KweetService/Dockerfile     
     depends_on:
       - db
   Auth:
