@@ -80,5 +80,14 @@ namespace Kweet.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpGet("/validate")]
+        [Authorize]
+        public async Task<ActionResult<string>> validate()
+        {
+            return "user is validated";
+        }
+
+
     }
 }
