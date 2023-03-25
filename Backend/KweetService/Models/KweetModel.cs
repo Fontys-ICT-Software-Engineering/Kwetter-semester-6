@@ -5,7 +5,7 @@ namespace Kweet.Models
     public class KweetModel
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         public string Message { get; set; }
@@ -17,11 +17,12 @@ namespace Kweet.Models
         public DateTime Date { get; set; }   
 
 
-        public KweetModel(string message, string user, DateTime date)
+        public KweetModel(string message, string user)
         {
+            Id = Guid.NewGuid();
             Message = message;
             User = user;
-            Date = date;
+            Date = DateTime.Now;
         }
 
     }

@@ -1,13 +1,16 @@
 using AuthService.DTOs;
 using AuthService.Models;
 using AuthService.Services.Authentication;
+using AuthService.Services.MessageProducer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using RabbitMQ.Client;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace AuthService.Controllers
 {
@@ -17,11 +20,13 @@ namespace AuthService.Controllers
     {
         private readonly IAuthenticationService _authService;
         private readonly IConfiguration _configuration;
+        private readonly IMessageProducer _messageProducer;
         
-        public AuthController(IAuthenticationService authService, IConfiguration configuration)
+        public AuthController(IAuthenticationService authService, IConfiguration configuration, IMessageProducer messageProducer)
         {
             _authService = authService;
             _configuration = configuration;
+            _messageProducer = messageProducer;
         }
 
         [HttpGet(Name = "GetAllUsers")]
@@ -82,6 +87,31 @@ namespace AuthService.Controllers
         public async Task<ActionResult<string>> validateAdmin()
         {
             return Ok("user Validated!");
+        }
+
+        [HttpGet("/rabbitMq")]
+        public async Task<ActionResult<string>> RabbitMq()
+        {
+            UserDTO dto = new UserDTO("Fendamear");
+
+            IConnectionFactory factory = new ConnectionFactory { HostName = "localhost", Port = 5672, UserName = "myuser", Password = "mypassword" };
+
+            var conn = factory.CreateConnection();
+
+            using var channel = conn.CreateModel();
+
+            //channel.ExchangeDeclare("test", ExchangeType.Topic, true);
+
+            //channel.QueueDeclare("Profile", durable: true, exclusive: true);
+
+            //channel.QueueBind("Profile", ExchangeType.Topic, "Profile")
+
+            var jsonString = JsonSerializer.Serialize(dto);
+            var body = Encoding.UTF8.GetBytes(jsonString);
+
+            channel.BasicPublish("", "Profile", body: body);
+
+            return Ok("message sent");
         }
     }
 }

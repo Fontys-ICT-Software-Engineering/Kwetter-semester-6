@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Kweet.DTOs
+namespace KweetService.DTOs.KweetDTO
 {
     public class KweetDTO
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Message { get; set; }
 
@@ -15,7 +15,7 @@ namespace Kweet.DTOs
 
         public KweetDTO() { }
 
-        public KweetDTO(int id, string message, string user, DateTime time)
+        public KweetDTO(Guid id, string message, string user, DateTime time)
         {
             Id = id;
             Message = message;

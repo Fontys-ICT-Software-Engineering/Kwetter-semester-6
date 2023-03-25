@@ -1,6 +1,9 @@
-﻿using Kweet.Data;
-using Kweet.DTOs;
+﻿using AutoMapper;
+using Kweet.Data;
 using Kweet.Models;
+using KweetService.DTOs;
+using KweetService.DTOs.KweetDTO;
+using KweetService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kweet.Services.Kweet
@@ -8,10 +11,12 @@ namespace Kweet.Services.Kweet
     public class KweetService : IKweetService
     {
         private readonly DataContext _dataContext;
+        private readonly IMapper _mapper;
 
-        public KweetService(DataContext context) 
+        public KweetService(DataContext context, IMapper mapper) 
         {
             _dataContext = context;
+            _mapper = mapper;
         }
 
         public async Task<List<KweetDTO>> getAllKweets()
@@ -39,9 +44,9 @@ namespace Kweet.Services.Kweet
             return response;
         }
 
-        public async Task<KweetDTO> postKweet(KweetDTO kweetDTO)
+        public async Task<PostKweetDTO> postKweet(PostKweetDTO kweetDTO)
         {
-            KweetModel post = new KweetModel(kweetDTO.Message, kweetDTO.User, DateTime.Now);
+            KweetModel post = new KweetModel(kweetDTO.Message, kweetDTO.User);
 
             try
             {
@@ -56,7 +61,7 @@ namespace Kweet.Services.Kweet
             return kweetDTO;
         }
 
-        public async Task<bool> deleteKweet(int id)
+        public async Task<bool> deleteKweet(Guid id)
         {
             try
             {
@@ -71,7 +76,7 @@ namespace Kweet.Services.Kweet
 
         }
 
-        public async Task<KweetDTO> getKweetById(int id)
+        public async Task<KweetDTO> getKweetById(Guid id)
         {
             try
             {
@@ -84,6 +89,54 @@ namespace Kweet.Services.Kweet
                 throw;
             }
         }
+
+        public async Task<LikeKweetDTO> LikeKweet(LikeKweetDTO dto)
+        {
+            LikeKweetDTO res = new LikeKweetDTO();
+
+            try
+            {
+                if(_dataContext.Likes.Any(k => k.KweetID == dto.KweetId && k.UserID == dto.UserId))
+                {
+                    _dataContext.Remove(_dataContext.Likes.Single(k => k.KweetID == dto.KweetId && k.UserID == dto.UserId));
+                    _dataContext.SaveChanges();
+                    return res;
+                }
+
+                Like like = _mapper.Map<Like>(dto);
+
+                _dataContext.Likes.Add(like);
+                _dataContext.SaveChanges();
+
+                return res;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+
+        public async Task<ReactionKweetDTO> ReactionKweet(ReactionKweetDTO dto)
+        {
+            try
+            {
+                ReactionKweet reaction = new ReactionKweet(dto.KweetId, dto.UserId, dto.Message);
+                _dataContext.Reactions.Add(reaction);
+                await _dataContext.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+            return dto;
+        }
+
+
 
     }
 

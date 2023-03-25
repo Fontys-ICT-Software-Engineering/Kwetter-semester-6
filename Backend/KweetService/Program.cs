@@ -1,4 +1,5 @@
 using Kweet.Data;
+using AutoMapper;
 using Kweet.Services.Kweet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -45,7 +47,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ValidateAudience = false
             };
         });
-builder.Services.AddScoped<IKweetService, KweetService>();
+builder.Services.AddScoped<IKweetService, Kweet.Services.Kweet.KweetService>();
 
 
 var app = builder.Build();

@@ -1,4 +1,6 @@
-﻿using Kweet.DTOs;
+﻿using KweetService.DTOs;
+using KweetService.DTOs.KweetDTO;
+using KweetService.Models;
 
 namespace Kweet.Services.Kweet
 {
@@ -6,12 +8,15 @@ namespace Kweet.Services.Kweet
     {
         public Task<List<KweetDTO>> getAllKweets();
 
-        public Task<KweetDTO> postKweet(KweetDTO kweetDTO);
+        public Task<PostKweetDTO> postKweet(PostKweetDTO postKweetDTO);
 
-        public Task<bool> deleteKweet(int id);
+        public Task<bool> deleteKweet(Guid id);
 
-        public Task<KweetDTO> getKweetById(int id);
+        public Task<KweetDTO> getKweetById(Guid id);
 
+        public Task<LikeKweetDTO> LikeKweet(LikeKweetDTO like);
+
+        public Task<ReactionKweetDTO> ReactionKweet(ReactionKweetDTO like);
 
     }
 }

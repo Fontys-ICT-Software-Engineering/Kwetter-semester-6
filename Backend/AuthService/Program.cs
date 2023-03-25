@@ -1,5 +1,6 @@
 using AuthService.Data;
 using AuthService.Services.Authentication;
+using AuthService.Services.MessageProducer;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         });
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 
 var app = builder.Build();
 
@@ -58,7 +60,7 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate();
 }
 // Configure the HTTP request pipeline.
-
+ 
 app.UseSwagger();
 app.UseSwaggerUI();
 

@@ -1,5 +1,7 @@
-﻿using Kweet.DTOs;
-using Kweet.Services.Kweet;
+﻿using Kweet.Services.Kweet;
+using KweetService.DTOs;
+using KweetService.DTOs.KweetDTO;
+using KweetService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,9 +36,9 @@ namespace Kweet.Controllers
         }
 
         [HttpPost(Name = "PostKeet")]
-        public async Task<ActionResult<KweetDTO>> postKweet(KweetDTO dto)
+        public async Task<ActionResult<PostKweetDTO>> postKweet(PostKweetDTO dto)
         {
-            KweetDTO response = new KweetDTO(); 
+            PostKweetDTO response = new PostKweetDTO(); 
 
             try
             {
@@ -53,7 +55,7 @@ namespace Kweet.Controllers
         }
 
         [HttpDelete(Name = "DeleteKweet")]
-        public async Task<ActionResult<string>> deleteKweet(int id)
+        public async Task<ActionResult<string>> deleteKweet(Guid id)
         {
             try
             {
@@ -67,7 +69,7 @@ namespace Kweet.Controllers
         }
 
         [HttpGet("/id", Name = "GetKweetById")]
-        public async Task<ActionResult<KweetDTO>> findById(int id)
+        public async Task<ActionResult<KweetDTO>> findById(Guid id)
         {
             try
             {
@@ -81,13 +83,39 @@ namespace Kweet.Controllers
             }
         }
 
-        [HttpGet("/validate")]
-        [Authorize]
-        public async Task<ActionResult<string>> validate()
+        [HttpPost("/LikeKweet")]
+        public async Task<ActionResult<string>> LikeKweet(LikeKweetDTO dto)
         {
-            return "user is validated";
+            try
+            {
+                LikeKweetDTO response = await _kweetService.LikeKweet(dto);
+                return Ok(response);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
+        [HttpPost("/ReactionKweet")]
+        public async Task<ActionResult<string>> ReactOnKweet(ReactionKweetDTO dto)
+        {
+            try
+            {
+                ReactionKweetDTO response = await _kweetService.ReactionKweet(dto);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
 
     }
 }
