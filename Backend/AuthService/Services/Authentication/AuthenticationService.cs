@@ -73,7 +73,7 @@ namespace AuthService.Services.Authentication
                 if (!user.Password.Equals(dto.Password)) throw new Exception();
 
                 token.Token = manager.CreateToken(user).ToString();
-
+                token.UserID = user.Id.ToString();
             }
             catch (Exception ex)
             {
