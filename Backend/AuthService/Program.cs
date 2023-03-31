@@ -16,8 +16,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+// Add services to the container.
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+                      });
+});
+
 builder.Services.AddControllers();
-builder.Services.AddCors();
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
@@ -51,7 +65,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
         });
 
-30
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 
@@ -78,6 +91,8 @@ using (var scope = app.Services.CreateScope())
  
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 //app.UseHttpsRedirection();
 app.UseAuthentication();
