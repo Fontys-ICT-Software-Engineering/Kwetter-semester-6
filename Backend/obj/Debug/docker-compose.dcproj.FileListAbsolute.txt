@@ -44,3 +44,6 @@ C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backen
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\ProfileService.exe
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AutoMapper.dll
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\MassTransit.Abstractions.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\MassTransit.RabbitMqTransport.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\bin\Debug\MassTransit.dll

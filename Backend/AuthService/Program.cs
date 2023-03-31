@@ -1,6 +1,9 @@
 using AuthService.Data;
+using AuthService.DTOs;
+using AuthService.Models.RabbitMq;
 using AuthService.Services.Authentication;
 using AuthService.Services.MessageProducer;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -48,8 +51,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
         });
 
+30
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IMessageProducer, MessageProducer>();
+
+
+var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
+builder.Services.AddMassTransit(mt => mt.AddMassTransit(x => {
+    x.UsingRabbitMq((cntxt, cfg) => {
+        cfg.Host(rabbitMqSettings.Uri, c => {
+            c.Username(rabbitMqSettings.UserName);
+            c.Password(rabbitMqSettings.Password);
+        });
+    });
+}));
 
 var app = builder.Build();
 
@@ -57,7 +72,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DataContext>();
-    context.Database.Migrate();
+    //context.Database.Migrate();
 }
 // Configure the HTTP request pipeline.
  

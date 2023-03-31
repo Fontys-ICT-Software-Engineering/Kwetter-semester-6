@@ -19,21 +19,26 @@ namespace Kweet.Controllers
             _kweetService = kweetService;
         }
 
-        [HttpGet(Name = "GetAllKweets")]
-        public async Task<ActionResult<List<KweetDTO>>> getAllKweets()
+        public async Task<ActionResult<string>> home()
         {
-            try
-            {
-                List<KweetDTO> response = await _kweetService.getAllKweets();
-                if (response == null) return NotFound();
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            return "this works!";
         }
+
+        //[HttpGet(Name = "GetAllKweets")]
+        //public async Task<ActionResult<List<KweetDTO>>> getAllKweets()
+        //{
+        //    try
+        //    {
+        //        List<KweetDTO> response = await _kweetService.getAllKweets();
+        //        if (response == null) return NotFound();
+        //        return Ok(response);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+
+        //}
 
         [HttpPost(Name = "PostKeet")]
         public async Task<ActionResult<PostKweetDTO>> postKweet(PostKweetDTO dto)

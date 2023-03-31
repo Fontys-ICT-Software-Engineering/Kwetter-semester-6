@@ -68,8 +68,7 @@ namespace AuthService.Services.Authentication
             try
             {
 
-                if (BCrypt.Net.BCrypt.Verify(dto.Password, user.Password)) throw new Exception();
-
+                //if (BCrypt.Net.BCrypt.Verify(dto.Password, user.Password)) throw new Exception();
 
                 if (!user.Password.Equals(dto.Password)) throw new Exception();
 

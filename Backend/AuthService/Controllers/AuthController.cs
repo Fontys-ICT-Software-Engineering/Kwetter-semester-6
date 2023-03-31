@@ -2,6 +2,7 @@ using AuthService.DTOs;
 using AuthService.Models;
 using AuthService.Services.Authentication;
 using AuthService.Services.MessageProducer;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +21,13 @@ namespace AuthService.Controllers
     {
         private readonly IAuthenticationService _authService;
         private readonly IConfiguration _configuration;
-        private readonly IMessageProducer _messageProducer;
+        private readonly IPublishEndpoint _publishEndpoint;
         
-        public AuthController(IAuthenticationService authService, IConfiguration configuration, IMessageProducer messageProducer)
+        public AuthController(IAuthenticationService authService, IConfiguration configuration, IPublishEndpoint publishEndpoint)
         {
             _authService = authService;
             _configuration = configuration;
-            _messageProducer = messageProducer;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet(Name = "GetAllUsers")]
@@ -89,28 +90,10 @@ namespace AuthService.Controllers
             return Ok("user Validated!");
         }
 
-        [HttpGet("/rabbitMq")]
-        public async Task<ActionResult<string>> RabbitMq()
+        [HttpPost("/rabbitMq")]
+        public async Task<ActionResult<RegisterUserDTO>> RabbitMq(RegisterUserDTO dto)
         {
-            UserDTO dto = new UserDTO("Fendamear");
-
-            IConnectionFactory factory = new ConnectionFactory { HostName = "localhost", Port = 5672, UserName = "myuser", Password = "mypassword" };
-
-            var conn = factory.CreateConnection();
-
-            using var channel = conn.CreateModel();
-
-            //channel.ExchangeDeclare("test", ExchangeType.Topic, true);
-
-            //channel.QueueDeclare("Profile", durable: true, exclusive: true);
-
-            //channel.QueueBind("Profile", ExchangeType.Topic, "Profile")
-
-            var jsonString = JsonSerializer.Serialize(dto);
-            var body = Encoding.UTF8.GetBytes(jsonString);
-
-            channel.BasicPublish("", "Profile", body: body);
-
+            await _publishEndpoint.Publish<RegisterUserDTO>(dto);
             return Ok("message sent");
         }
     }

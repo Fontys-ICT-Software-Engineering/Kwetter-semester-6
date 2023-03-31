@@ -54,3 +54,8 @@ C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backen
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\BCrypt.Net-Next.dll
 C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\RabbitMQ.Client.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\MassTransit.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\MassTransit.Abstractions.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\MassTransit.RabbitMqTransport.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\MassTransit.AspNetCoreIntegration.dll
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\AuthService\bin\Debug\net7.0\MassTransit.ExtensionsDependencyInjectionIntegration.dll
