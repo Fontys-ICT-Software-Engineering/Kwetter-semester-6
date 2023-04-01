@@ -63,6 +63,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ValidateIssuer = false,
                 ValidateAudience = false
             };
+            options.MapInboundClaims = false;
         });
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();

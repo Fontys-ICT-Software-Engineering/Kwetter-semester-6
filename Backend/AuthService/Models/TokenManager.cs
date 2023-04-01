@@ -23,7 +23,7 @@ namespace AuthService.Models
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Role, user.Role.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim("ID", user.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
@@ -33,7 +33,7 @@ namespace AuthService.Models
             var token = new JwtSecurityToken(
                     claims: claims,
                     expires: DateTime.UtcNow.AddHours(1),
-                    signingCredentials: cred
+                    signingCredentials: cred                   
                     );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
