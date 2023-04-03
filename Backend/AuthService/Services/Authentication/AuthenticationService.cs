@@ -2,8 +2,10 @@
 using AuthService.DTOs;
 using AuthService.Models;
 using BCrypt.Net;
+using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace AuthService.Services.Authentication
 {
@@ -12,55 +14,90 @@ namespace AuthService.Services.Authentication
 
         private readonly DataContext _dataContext;
         private readonly IConfiguration _configuration;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public AuthenticationService(DataContext context, IConfiguration configuration)
+        public AuthenticationService(DataContext context, IConfiguration configuration, IPublishEndpoint endpoint)
         {
             _dataContext = context;
             _configuration = configuration;
+            _publishEndpoint = endpoint;
         }
 
         public async Task<List<UserDTO>> GetAllUsers()
         {
             List<UserDTO> users = new List<UserDTO>();
 
-            try
-            {
-                List<User> userlist = await _dataContext.users.ToListAsync();
+            //try
+            //{
+            //    List<User> userlist = await _dataContext.users.ToListAsync();
 
-                foreach (User user in userlist)
-                {
-                    users.Add(new UserDTO(user.UserName));
-                }
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //    foreach (User user in userlist)
+            //    {
+            //        users.Add(new UserDTO(user.UserName));
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //}
             return users;
         }
 
         public async Task<CreateUserDTO> Register(CreateUserDTO register)
         {
+            foreach (PropertyInfo pi in register.GetType().GetProperties())
+            {
+                if (pi.PropertyType == typeof(string))
+                {
+                    string value = (string)pi.GetValue(register);
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        throw new InvalidOperationException("missing value");
+                    }
+                }
+            }
+
             string password = BCrypt.Net.BCrypt.HashPassword(register.Password);
-            User user = new User(register.UserName, password, UserRole.NORMAL);
+            Guid id = Guid.NewGuid();
+
+            User user = new User()
+            {
+                Id = id,
+                Email = register.Email,
+                Password = password,
+                Role = UserRole.NORMAL,
+                DateEnrolled = DateTime.Now
+            };
+
+            RegisterUserDTO profile = new RegisterUserDTO()
+            {
+                Name = register.Name,
+                UserName = register.UserName,
+                Adress = register.Adress,
+                AuthId = id,
+                Bio = register.Bio,
+            };
 
             try
             {
-                if (_dataContext.users.Any(u => u.UserName == user.UserName)) throw new Exception();
+                if (_dataContext.users.Any(u => u.Email == user.Email)) throw new ArgumentException("Email already exists");
+  
                 _dataContext.users.Add(user);
+                await _publishEndpoint.Publish<RegisterUserDTO>(profile);
+
                 _dataContext.SaveChanges();
+
             }
             catch (Exception ex)
             {
                 throw;
             }
-
             return register;
         }
 
         public async Task<TokenDTO> GenerateToken(LoginDTO dto)
         {
-            User user = _dataContext.users.Single(u => u.UserName == dto.Username);
+            User user = _dataContext.users.Single(u => u.Email == dto.Email);
             TokenDTO token = new TokenDTO();
 
             TokenManager manager = new TokenManager(_configuration);
@@ -73,7 +110,6 @@ namespace AuthService.Services.Authentication
                 if (!user.Password.Equals(dto.Password)) throw new Exception();
 
                 token.Token = manager.CreateToken(user).ToString();
-                token.UserID = user.Id.ToString();
             }
             catch (Exception ex)
             {

@@ -8,25 +8,20 @@ namespace AuthService.Models
         public Guid Id { get; set; }
 
         [Required]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
         [Required]
         public string Password { get; set; }
 
         [Required]
-        public UserRole Role { get; set; }  
+        public UserRole Role { get; set; }
+
+        [Required]
+        public DateTime DateEnrolled { get; set; }
 
         public User()
         {
 
-        }
-
-        public User(string userName, string password, UserRole role)
-        {
-            Id = Guid.NewGuid();
-            UserName = userName;
-            Password = password;
-            Role = role;
         }
     }
 }

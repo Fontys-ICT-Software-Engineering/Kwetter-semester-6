@@ -21,7 +21,7 @@ namespace AuthService.Models
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
+                //new Claim(ClaimTypes.Name, user.Nam),
                 new Claim(ClaimTypes.Role, user.Role.ToString()),
                 new Claim("ID", user.Id.ToString())
             };

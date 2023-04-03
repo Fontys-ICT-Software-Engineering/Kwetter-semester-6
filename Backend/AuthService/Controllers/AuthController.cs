@@ -53,6 +53,14 @@ namespace AuthService.Controllers
                 CreateUserDTO res = await _authService.Register(dto);
                 return Ok(res);
             }
+            catch(ArgumentException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
