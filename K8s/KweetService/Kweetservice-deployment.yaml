@@ -1,24 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api
-  labels:
-    app: api
+  name: kweetservice-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: api
+      app: kweetservice
   template:
     metadata:
       labels:
-        app: api
+        app: kweetservice
     spec:
       containers:
-      - name: api
-        image: k3d-fontys:5000/api:v0.1
-        ports:
-        - containerPort: 3000
+      - name: kweetservice
+        image: kweetservice
+        imagePullPolicy: Never
         resources:
           limits:
             memory: 512Mi

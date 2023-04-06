@@ -19,6 +19,13 @@ namespace Kweet.Controllers
             _kweetService = kweetService;
         }
 
+        [HttpGet("/kubernetes")]
+        public string kubernetes()
+        {
+            return "this works!";
+        }
+
+
         [HttpGet(Name = "GetAllKweets")]
         public async Task<ActionResult<List<KweetDTO>>> getAllKweets()
         {
