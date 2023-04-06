@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\MessageConsumer\**" />
+    <Content Remove="Services\MessageConsumer\**" />
+    <EmbeddedResource Remove="Services\MessageConsumer\**" />
+    <None Remove="Services\MessageConsumer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MassTransit" Version="8.0.14" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.3.1" />
@@ -25,10 +32,6 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\MessageConsumer\" />
   </ItemGroup>
 
 </Project>

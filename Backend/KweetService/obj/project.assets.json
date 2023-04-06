@@ -7068,19 +7068,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Nickv\\.nuget\\packages\\": {}
+    "C:\\Users\\Nickv\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Nickv\\Documents\\School\\Semester 6\\individueel\\Kwetter-semester-6\\Backend\\KweetService\\KweetService.csproj",
+      "projectUniqueName": "C:\\Documents\\School\\Fontys ICT\\Semester 6\\Advanced software\\Individueel\\Kwetter-semester-6\\Backend\\KweetService\\KweetService.csproj",
       "projectName": "KweetService",
-      "projectPath": "C:\\Users\\Nickv\\Documents\\School\\Semester 6\\individueel\\Kwetter-semester-6\\Backend\\KweetService\\KweetService.csproj",
+      "projectPath": "C:\\Documents\\School\\Fontys ICT\\Semester 6\\Advanced software\\Individueel\\Kwetter-semester-6\\Backend\\KweetService\\KweetService.csproj",
       "packagesPath": "C:\\Users\\Nickv\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Nickv\\Documents\\School\\Semester 6\\individueel\\Kwetter-semester-6\\Backend\\KweetService\\obj\\",
+      "outputPath": "C:\\Documents\\School\\Fontys ICT\\Semester 6\\Advanced software\\Individueel\\Kwetter-semester-6\\Backend\\KweetService\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\Nickv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
