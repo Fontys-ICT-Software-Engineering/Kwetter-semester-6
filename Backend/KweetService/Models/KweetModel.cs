@@ -16,6 +16,7 @@ namespace Kweet.Models
         [Required]
         public DateTime Date { get; set; }   
 
+        public bool IsEdited { get; set; }
 
         public KweetModel(string message, string user)
         {
@@ -23,6 +24,7 @@ namespace Kweet.Models
             Message = message;
             User = user;
             Date = DateTime.Now;
+            IsEdited = false;
         }
 
     }

@@ -19,9 +19,9 @@ namespace Kweet.Services.Kweet
             _mapper = mapper;
         }
 
-        public async Task<List<KweetDTO>> getAllKweets()
+        public async Task<List<ReturnKweetDTO>> getAllKweets()
         {
-            List<KweetDTO> response = new List<KweetDTO>();
+            List<ReturnKweetDTO> response = new List<ReturnKweetDTO>();
 
             try
             {
@@ -29,11 +29,17 @@ namespace Kweet.Services.Kweet
 
                 foreach (KweetModel model in kweets)
                 {
-                    response.Add(new KweetDTO(
+                    bool liked = await isLikedByUser(model.User);
+                    int likes = await getLikesByKweet(model.Id.ToString());
+
+                    response.Add(new ReturnKweetDTO(
                         model.Id,
                         model.Message,
                         model.User,
-                        model.Date
+                        model.Date,
+                        model.IsEdited,
+                        likes,
+                        liked
                         ));
                 }
             }
@@ -42,6 +48,30 @@ namespace Kweet.Services.Kweet
                 throw;
             }
             return response;
+        }
+
+        public async Task<ReturnUpdateKweetDTO> UpdateKweet(PostUpdateKweetDTO dto)
+        {
+            ReturnUpdateKweetDTO response = new();
+            try
+            {
+                KweetModel model = await _dataContext.Kweets.SingleAsync(k => k.Id == dto.Id);
+
+                //check of het meegegeven userId match met de originele tweeter
+                if (model.User != dto.User) throw new Exception();
+
+                model.Message = dto.Message;
+                model.IsEdited = true;
+
+                _dataContext.Kweets.Update(model);
+                _dataContext.SaveChanges();
+
+               return response = _mapper.Map<ReturnUpdateKweetDTO>(model);
+            }
+            catch (Exception ex)
+            {
+                return response;
+            }
         }
 
         public async Task<PostKweetDTO> postKweet(PostKweetDTO kweetDTO)
@@ -76,13 +106,18 @@ namespace Kweet.Services.Kweet
 
         }
 
-        public async Task<KweetDTO> getKweetById(Guid id)
+        public async Task<ReturnKweetDTO> getKweetById(Guid id)
         {
             try
             {
                 KweetModel res = _dataContext.Kweets.Single(k => k.Id == id);
+                bool liked = false;
+                int likes = await getLikesByKweet(id.ToString());
 
-                return new KweetDTO(res.Id, res.Message, res.User, res.Date);
+
+
+
+                return new ReturnKweetDTO(res.Id, res.Message, res.User, res.Date, res.IsEdited, likes, liked);
             }
             catch (Exception ex)
             {
@@ -90,51 +125,34 @@ namespace Kweet.Services.Kweet
             }
         }
 
-        public async Task<LikeKweetDTO> LikeKweet(LikeKweetDTO dto)
-        {
-            LikeKweetDTO res = new LikeKweetDTO();
 
-            try
-            {
-                if(_dataContext.Likes.Any(k => k.KweetID == dto.KweetId && k.UserID == dto.UserId))
-                {
-                    _dataContext.Remove(_dataContext.Likes.Single(k => k.KweetID == dto.KweetId && k.UserID == dto.UserId));
-                    _dataContext.SaveChanges();
-                    return res;
-                }
-
-                Like like = _mapper.Map<Like>(dto);
-
-                _dataContext.Likes.Add(like);
-                _dataContext.SaveChanges();
-
-                return res;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-            
-        }
-
-        public async Task<ReactionKweetDTO> ReactionKweet(ReactionKweetDTO dto)
+        private async Task<int> getLikesByKweet(string KweetID)
         {
             try
             {
-                ReactionKweet reaction = new ReactionKweet(dto.KweetId, dto.UserId, dto.Message);
-                _dataContext.Reactions.Add(reaction);
-                await _dataContext.SaveChangesAsync();
-
+                return await _dataContext.Likes.Where(i => i.KweetID == KweetID).CountAsync();
             }
             catch (Exception ex)
             {
 
                 throw;
             }
-
-            return dto;
         }
+
+        private async Task<bool> isLikedByUser(string UserID)
+        {
+            try
+            {
+                if(await _dataContext.Likes.AnyAsync(k => k.UserID == UserID)) return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return false;
+        }
+
+        
 
 
 

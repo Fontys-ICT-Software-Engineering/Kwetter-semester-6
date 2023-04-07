@@ -7,30 +7,19 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import tweets from "../tweets/tweets";
 import * as url from "../../baseUrl.js"
+import Cookies from "universal-cookie";
 
 
-export default function CreateTweet() {
+export default function CreateTweet(id) {
 
   const [Tweet, setTweet] = useState([]);
   let navigate = useNavigate();
-
-
-  // state = {
-  //   showpermission: false,
-  //   tweet: {
-  //     caption: null,
-  //     file: null,
-  //   },
-  //   permission: 1,
-  //   tweetimageURL: null,
-  //   postedTweet: null,
-  // };
-
+  
   const postTweet = (e) => {
     e.preventDefault();
     var data = JSON.stringify({
       "message": Tweet,
-      "user": "f8a80733-032d-4dbe-8450-813650149562"
+      "user": id.id
     })
 
     var config = {
@@ -43,7 +32,7 @@ export default function CreateTweet() {
     };
     axios(config).then((response) => {
       console.log(response.message)
-      navigate('/')
+      window.location.reload()
     }).catch(function (error) {
       //console.log('Error', error.message)
       // setMessage(error.response.data.message);

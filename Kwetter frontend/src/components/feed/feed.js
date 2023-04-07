@@ -7,10 +7,22 @@ import Spinner from "../spinner/spinner";
 import { useState } from "react";
 import { useEffect } from "react";
 import * as url from '../../baseUrl.js'
+import useValidateCookie, { getJWTToken, getUserID } from '../../Hooks/Hooks'
+import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom"; 
+
 
 export default function Feed() {
 
+  const jwt = "jwt_authorization"
   const [tweets, setTweets] = useState([]);
+  const cookies = new Cookies();
+  let navigate = useNavigate();
+
+
+  //const test = useValidateCookie();
+
+  //console.log(getJWTToken)
 
   useEffect(() => {
     var config = {
@@ -18,12 +30,14 @@ export default function Feed() {
       url: url.kweetUrl,
       headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + cookies.get(jwt)
       },
     };  
     axios(config).then((response) => {
         setTweets(response.data)
         console.log(response.data)
     }).catch(function( err) {
+      navigate("/login")
       console.log(err);
     });
   }, []);
@@ -36,14 +50,12 @@ export default function Feed() {
             caption={post.message}
             image="test"
             comments="test"
-            retweets="test"
+            //retweets="test"
             datetime={post.date}
             post_id={post.id}
-            liked={false}
-            likes="test"
-            retweeted="test"
-            saved="test"
-            saves="test"
+            liked={post.liked}
+            likes={post.likes}
+            //retweeted="test"
             key={index}
           />
         ))}

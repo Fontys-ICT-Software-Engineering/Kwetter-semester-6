@@ -5,10 +5,34 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { LongMenu } from './Menu'
+import { getUserID } from "../../Hooks/Hooks";
+import Cookies from "universal-cookie";
+import jwtDecode from "jwt-decode";
+import * as url from '../../baseUrl'
 
-function Post (props) {
+
+function Post(props) {
   let date = new Date(props.datetime.$date);
   let navigate = useNavigate();
+
+
+  const [userID, setUserID] = useState("");
+
+  const cookies = new Cookies()
+  const decoded = jwtDecode(cookies.get("jwt_authorization"))
+
+  console.log("uit de props " + props.user);
+  console.log("uit de cookie " + decoded.ID);
+
+  function menu() {
+    if (props.user === decoded.ID) {
+      return <div className="justify-end"><LongMenu id={props.post_id}></LongMenu></div>
+    }
+  }
+
+
+
 
   const [liked, setLiked] = useState(props.liked);
   const [likes, setLikes] = useState(props.likes);
@@ -18,6 +42,7 @@ function Post (props) {
   const [saves, setSaves] = useState(props.saves);
   const [comment, setComment] = useState("");
   const [commentSent, setCommentsent] = useState(null);
+  const [edit, setEdit] = useState(false);
 
   const handleComment = (event) => {
     setComment(event.target.value);
@@ -45,7 +70,41 @@ function Post (props) {
     //   .catch((err) => console.log(false));
   };
 
-  const likePost = () => {
+  function likePost () {
+
+    console.log("de like post methode bereikt!")
+    var data = JSON.stringify({
+      "kweetId": props.post_id,
+      "userId": props.user
+    })
+
+    console.log(data);
+    var config = {
+      method: 'post',
+      url: url.likeUrl,
+      headers: {
+        'Content-Type': 'application/json', 
+        'Authorization': 'Bearer ' + cookies.get("jwt_authorization")
+      },
+      data: data
+    };
+
+    axios(config).then((response) => {
+      console.log(response.data)
+      setLiked(response.data)
+
+      if(response.data)
+      {
+          setLikes(likes + 1)
+      } 
+      else {
+          setLikes(likes - 1)
+      } 
+    }).catch(function (error) {
+      console.log('Error', error.message)
+      console.log(error.response.status);
+    });
+
     // setLiked(!liked);
     // let url = `https://tweeter-test-yin.herokuapp.com/${props.post_id.$oid}/like`;
     // axios({
@@ -115,23 +174,18 @@ function Post (props) {
             {date.getUTCHours()}:{date.getUTCMinutes()}
           </p>
         </div>
+        {menu(props.post_id)}
       </header>
+
       <Link
         className="tweet"
         to={`/${props.user.username}/${props.post_id.$oid}`}
       >
         {props.caption}
       </Link>
-      <img className="postImage" src={props.image} />
       <div className="engagementLinks">
-        <Link
-          to={`/${props.username}/${props.post_id.$oid}`}
-          className="engagementLink"
-        >
-          {props.comments} Comments
-        </Link>
-        <a className="engagementLink">{retweets} Retweets</a>
-        <a className="engagementLink">{saves} Saved</a>
+        <a className="engagementLink">{likes} likes</a>
+        <a className="engagementLink">{props.comments} comments</a>
       </div>
       <div className="engageLinks">
         <a className="engageLink">
@@ -140,33 +194,23 @@ function Post (props) {
           </span>
           <span>Comment</span>
         </a>
-        <a
+        {/* <a
           className="engageLink"
           style={retweeted ? { color: "#27AE60" } : { color: "initial" }}
           onClick={retweetPost}
         >
           <span className="material-icons-outlined engageLink">autorenew</span>
           <span>{retweeted ? "Retweeted" : "Retweet"}</span>
-        </a>
+        </a> */}
         <a
           className="engageLink"
           style={liked ? { color: "#EB5757" } : { color: "black" }}
-          onClick={likePost}
+          onClick={() => likePost()}        
         >
           <span className="material-icons-outlined engageLink">
             favorite_border
           </span>
           <span>{liked ? "Liked" : "Like"}</span>
-        </a>
-        <a
-          className="engageLink"
-          style={saved ? { color: "#2D9CDB" } : { color: "inherit" }}
-          onClick={bookmarkPost}
-        >
-          <span className="material-icons-outlined engageLink">
-            bookmark_border
-          </span>
-          <span>{saved ? "Saved" : "Save"}</span>
         </a>
       </div>
       <div className="commentCard">

@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using KweetService.Services.Reaction;
+using KweetService.Services.Likes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,8 +29,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
-    //options.UseMySql(builder.Configuration.GetConnectionString("MigrationConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
+  //options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
+    options.UseMySql(builder.Configuration.GetConnectionString("MigrationConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -60,8 +62,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
             options.MapInboundClaims = false;
         });
+builder.Services.AddScoped<IReactionService, ReactionService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<IKweetService, Kweet.Services.Kweet.KweetService>();
-
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())

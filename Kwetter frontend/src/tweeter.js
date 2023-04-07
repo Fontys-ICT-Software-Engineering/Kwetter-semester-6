@@ -34,7 +34,6 @@ const Tweeter = (props) => {
         props.auth ? <Route path="signup" element={<Navigate to="/settings"/>} />
         :
         <Route path="signup" element={<SignupPage />} />
-
       }
       (
         <Route exact path="/" element={<HomePage />} />

@@ -25,7 +25,7 @@ export default function Login() {
   const cookies = new Cookies();
 
   const [formValue, setFormValue] = useState({
-    username: "",
+    email: "",
     password: ""
   });
 
@@ -40,10 +40,11 @@ export default function Login() {
     e.preventDefault();
     showError(false);
     var data = JSON.stringify({
-      "username": formValue.username,
+      "email": formValue.email,
       "password": formValue.password
     });
 
+    console.log(data)
     var config = {
       method: 'post',
       url: url.authUrl + "login",
@@ -79,8 +80,8 @@ export default function Login() {
         <form onSubmit={submitHandler}>
           <i className="material-icons-outlined">email</i>
           <input className="loginform-input"
-            name="username"
-            //type="email"
+            name="email"
+            type="email"
             placeholder="Email"
             //onMouseOver={() => this.setState({ focus: { email: true } })}
             onChange={inputChangedHandler}

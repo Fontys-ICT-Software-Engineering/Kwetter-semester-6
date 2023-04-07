@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
-using KweetService.DTOs;
+using Kweet.Models;
+using KweetService.DTOs.KweetDTO;
+using KweetService.DTOs.LikeDTO;
+using KweetService.DTOs.ReactionDTO;
 using KweetService.Models;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -9,11 +12,16 @@ namespace KweetService
     {
         public AutoMapperProfile()
         {
-            CreateMap<LikeKweetDTO, Like>();
-            CreateMap<Like , LikeKweetDTO>();
+            CreateMap<ReturnUpdateKweetDTO, KweetModel>();
+            CreateMap<KweetModel, ReturnUpdateKweetDTO>();
 
-            CreateMap<ReactionKweetDTO, ReactionKweet>();
-            CreateMap<ReactionKweet, ReactionKweetDTO>();
+
+
+            CreateMap<PostLikeKweetDTO, Like>();
+            CreateMap<Like , PostLikeKweetDTO>();
+
+            CreateMap<PostReactionKweetDTO, ReactionKweet>();
+            CreateMap<ReactionKweet, PostReactionKweetDTO>();
         }
 
 

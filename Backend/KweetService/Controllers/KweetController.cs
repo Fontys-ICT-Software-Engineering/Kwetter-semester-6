@@ -1,6 +1,7 @@
 ﻿using Kweet.Services.Kweet;
-using KweetService.DTOs;
 using KweetService.DTOs.KweetDTO;
+using KweetService.DTOs.LikeDTO;
+using KweetService.DTOs.ReactionDTO;
 using KweetService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -27,11 +28,11 @@ namespace Kweet.Controllers
 
 
         [HttpGet(Name = "GetAllKweets")]
-        public async Task<ActionResult<List<KweetDTO>>> getAllKweets()
+        public async Task<ActionResult<List<ReturnKweetDTO>>> getAllKweets()
         {
             try
             {
-                List<KweetDTO> response = await _kweetService.getAllKweets();
+                List<ReturnKweetDTO> response = await _kweetService.getAllKweets();
                 if (response == null) return NotFound();
                 return Ok(response);
             }
@@ -39,10 +40,9 @@ namespace Kweet.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
-        [HttpPost(Name = "PostKeet")]
+        [HttpPost(Name = "PostKweet")]
         public async Task<ActionResult<PostKweetDTO>> postKweet(PostKweetDTO dto)
         {
             PostKweetDTO response = new PostKweetDTO(); 
@@ -76,11 +76,11 @@ namespace Kweet.Controllers
         }
 
         [HttpGet("/id", Name = "GetKweetById")]
-        public async Task<ActionResult<KweetDTO>> findById(Guid id)
+        public async Task<ActionResult<ReturnKweetDTO>> findById(Guid id)
         {
             try
             {
-                KweetDTO response = await _kweetService.getKweetById(id);
+                ReturnKweetDTO response = await _kweetService.getKweetById(id);
                 if (response == null) return NotFound();
                 return Ok(response);
             }
@@ -90,38 +90,21 @@ namespace Kweet.Controllers
             }
         }
 
-        [HttpPost("/LikeKweet")]
-        public async Task<ActionResult<string>> LikeKweet(LikeKweetDTO dto)
+        [HttpPut]
+        public async Task<ActionResult<ReturnUpdateKweetDTO>> UpdateKweet(PostUpdateKweetDTO dto)
         {
+            ReturnUpdateKweetDTO response = new();
             try
             {
-                LikeKweetDTO response = await _kweetService.LikeKweet(dto);
-                return Ok(response);
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
-        }
-
-        [HttpPost("/ReactionKweet")]
-        public async Task<ActionResult<string>> ReactOnKweet(ReactionKweetDTO dto)
-        {
-            try
-            {
-                ReactionKweetDTO response = await _kweetService.ReactionKweet(dto);
-                return Ok(response);
-
+                response = await _kweetService.UpdateKweet(dto);
+                
+                if(response == null) return NotFound();
+                return Ok(response);    
             }
             catch (Exception ex)
             {
-
-                throw;
+                return BadRequest(ex.Message);
             }
-
         }
 
     }

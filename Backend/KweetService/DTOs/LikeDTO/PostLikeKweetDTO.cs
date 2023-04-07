@@ -1,6 +1,6 @@
-﻿namespace KweetService.DTOs
+﻿namespace KweetService.DTOs.LikeDTO
 {
-    public class LikeKweetDTO
+    public class PostLikeKweetDTO
     {
         public string KweetId { get; set; }
 
