@@ -1,0 +1,9 @@
+.loginform-input input{
+    width: 80%;
+    font-size: 20px;
+    margin-bottom: 25px;
+    border: 2px solid var(--yellow-standard);
+    padding: 5px;
+    border-radius: 5px;
+    border-color: black;
+}
