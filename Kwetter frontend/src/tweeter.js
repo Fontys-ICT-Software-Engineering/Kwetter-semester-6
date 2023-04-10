@@ -1,6 +1,5 @@
 import HomePage from "./pages/homePage/homePage";
 import ExplorePage from "./pages/explorepage/explorepage";
-import BookmarksPage from "./pages/bookmarkspage/bookmarkspage";
 import LoginPage from "./pages/login/login";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import SignupPage from "./pages/auth/signup";
@@ -48,14 +47,6 @@ const Tweeter = (props) => {
       ) : (
         <Route
           path="/explore"
-          element={<Navigate to="/signin" state={{ from: location }} />}
-        />
-      )
-      (
-        <Route path="/bookmarks" element={<BookmarksPage />} />
-      ) : (
-        <Route
-          path="/bookmarks"
           element={<Navigate to="/signin" state={{ from: location }} />}
         />
       )

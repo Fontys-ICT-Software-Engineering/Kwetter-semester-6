@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "paLJ9LSssFPgb5FeaOMCsMhl+hjNMZkuTcaV4wkaOoVwC7tEq0P1HUjx1dySKooiKyIS5207fNq/+WrITKBiwQ==",
+  "dgSpecHash": "OYkVs0BNLvAAd8MCV46Fvgq2Bf9aAgDTn2TPz0JS5jJxHhRFBCdwUQyOYINujsuD7reS/dUULv/+dMV4A+s0hg==",
   "success": true,
-  "projectFilePath": "C:\\Documents\\School\\Fontys ICT\\Semester 6\\Advanced software\\Individueel\\Kwetter-semester-6\\Backend\\KweetService\\KweetService.csproj",
+  "projectFilePath": "C:\\Users\\Nickv\\Documents\\School\\Semester 6\\individueel\\Kwetter-semester-6\\Backend\\KweetService\\KweetService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nickv\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Nickv\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

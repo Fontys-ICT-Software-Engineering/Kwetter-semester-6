@@ -13,36 +13,27 @@ import * as url from '../../baseUrl'
 
 
 function Post(props) {
-  let date = new Date(props.datetime.$date);
+  let date = new Date(props.datetime);
   let navigate = useNavigate();
-
-
-  const [userID, setUserID] = useState("");
-
+  const jwt = "jwt_authorization"
   const cookies = new Cookies()
   const decoded = jwtDecode(cookies.get("jwt_authorization"))
 
-  console.log("uit de props " + props.user);
-  console.log("uit de cookie " + decoded.ID);
+  console.log(props.post_id + " : " + props.edited)
 
   function menu() {
     if (props.user === decoded.ID) {
       return <div className="justify-end"><LongMenu id={props.post_id}></LongMenu></div>
     }
   }
-
-
-
-
   const [liked, setLiked] = useState(props.liked);
   const [likes, setLikes] = useState(props.likes);
   const [retweeted, setRetweeted] = useState(props.retweeted);
   const [retweets, setretweets] = useState(props.retweets);
-  const [saved, setSaved] = useState(props.saved);
-  const [saves, setSaves] = useState(props.saves);
   const [comment, setComment] = useState("");
   const [commentSent, setCommentsent] = useState(null);
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState(props.editable);
+  const [editTweet, setEditTweet] = useState(props.caption)
 
   const handleComment = (event) => {
     setComment(event.target.value);
@@ -70,7 +61,7 @@ function Post(props) {
     //   .catch((err) => console.log(false));
   };
 
-  function likePost () {
+  function likePost() {
 
     console.log("de like post methode bereikt!")
     var data = JSON.stringify({
@@ -83,7 +74,7 @@ function Post(props) {
       method: 'post',
       url: url.likeUrl,
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + cookies.get("jwt_authorization")
       },
       data: data
@@ -93,33 +84,16 @@ function Post(props) {
       console.log(response.data)
       setLiked(response.data)
 
-      if(response.data)
-      {
-          setLikes(likes + 1)
-      } 
+      if (response.data) {
+        setLikes(likes + 1)
+      }
       else {
-          setLikes(likes - 1)
-      } 
+        setLikes(likes - 1)
+      }
     }).catch(function (error) {
       console.log('Error', error.message)
       console.log(error.response.status);
     });
-
-    // setLiked(!liked);
-    // let url = `https://tweeter-test-yin.herokuapp.com/${props.post_id.$oid}/like`;
-    // axios({
-    //   method: "get",
-    //   url: url,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     Authorization: props.token,
-    //   },
-    // })
-    //   .then((res) => {
-    //     setLiked(res.data.liked);
-    //     setLikes(res.data.likes);
-    //   })
-    //   .catch((err) => setLiked(!liked));
   };
 
   const retweetPost = () => {
@@ -140,20 +114,51 @@ function Post(props) {
     //   .catch((err) => console.log(err));
   };
 
-  const bookmarkPost = () => {
-    // setSaved(!saved);
-    // let url = `https://tweeter-test-yin.herokuapp.com/${props.post_id.$oid}/bookmark`;
-    // axios({
-    //   method: "get",
-    //   url: url,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     Authorization: props.token,
-    //   },
-    // })
-    //   .then((res) => setSaved(res.data.bookmarked))
-    //   .catch((err) => console.log(err));
-  };
+  const handleUpdateTweet = (event) => {
+    setEditTweet(event.target.value);
+  }
+
+  function handleUpdatePost(id) {
+    var data = JSON.stringify({
+      "id": id,
+      "user": decoded.ID,
+      "message": editTweet
+    })
+
+    var config = {
+      method: 'Put',
+      url: url.kweetUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cookies.get(jwt)
+      },
+      data: data
+    };
+
+    console.log(data)
+    axios(config).then((response) => {
+      localStorage.removeItem("editableId")
+      window.location.reload();
+    }).catch(function (err) {
+      //navigate("/login")
+      console.log(err);
+    });
+  }
+
+  function cancelEdit () {
+    localStorage.removeItem("editableId")
+    window.location.reload();
+  }
+
+  function editing() {
+    console.log("in de editing functie " + edit)
+    if (edit === [true]) {
+      return <>dit return hij in plaats van een tweet</>
+    }
+    else {
+      return
+    }
+  }
 
   return (
     <article className="post">
@@ -161,7 +166,7 @@ function Post(props) {
         <p className="tweetFail">An error occured. Please try again.</p>
       ) : null}
       <header className="postingDetails">
-        <img className="posterImage" src={props.user.profile_image} />
+        <img className="posterImage" src={"https://drive.google.com/uc?export=view&id=1LUxHzacFb2IlZSTmgxrrOK04Sz7uTKQggQ"} />
         <div>
           <Link
             to={`/profile/tweets/1`}
@@ -171,21 +176,40 @@ function Post(props) {
           </Link>
           <p className="postingDate">
             {date.getDate()} {date.toLocaleString("en", { month: "long" })} at{" "}
-            {date.getUTCHours()}:{date.getUTCMinutes()}
+            {date.getHours()}:{(date.getMinutes()<10?'0':'') + date.getMinutes()}
+            {props.edited == true ? <> (Edited)</> : null }
           </p>
         </div>
         {menu(props.post_id)}
       </header>
 
-      <Link
+      {props.editable == "true" ? (
+        <>
+          <div className="tweetbox ">
+            <textarea
+              className="tweetBox color-ligning"
+              onChange={handleUpdateTweet}
+              //onKeyDown={handleKeyDown}
+              maxLength="250"
+            >{props.caption}</textarea>
+            {/* <img src={tweetimageURL} width="100%" /> */}
+          </div>
+          <div className="tweet">
+            <button className="button" onClick={() => handleUpdatePost(props.post_id)}>Update</button>
+            &nbsp;
+            <button className="button danger" onClick={() => cancelEdit()}>Cancel Update</button>           
+          </div>
+        </>
+      ) : <Link
         className="tweet"
         to={`/${props.user.username}/${props.post_id.$oid}`}
       >
         {props.caption}
-      </Link>
+      </Link>}
+
       <div className="engagementLinks">
-        <a className="engagementLink">{likes} likes</a>
-        <a className="engagementLink">{props.comments} comments</a>
+        <a className="engagementLink margin-right">{likes} likes</a>
+        <a className="engagementLink margin-right">{props.comments} comments</a>
       </div>
       <div className="engageLinks">
         <a className="engageLink">
@@ -205,7 +229,7 @@ function Post(props) {
         <a
           className="engageLink"
           style={liked ? { color: "#EB5757" } : { color: "black" }}
-          onClick={() => likePost()}        
+          onClick={() => likePost()}
         >
           <span className="material-icons-outlined engageLink">
             favorite_border

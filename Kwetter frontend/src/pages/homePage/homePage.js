@@ -34,7 +34,7 @@ const HomePage = (props) => {
         </HomeContainer>
         <SideBar>
           <Bio />
-          <FollowCard />
+          {/* <FollowCard /> */}
         </SideBar>
       </Container>
     </div>

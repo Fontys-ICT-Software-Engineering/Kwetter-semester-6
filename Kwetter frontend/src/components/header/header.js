@@ -12,19 +12,20 @@ const Header = (props) => {
   return (
     <header className="header">
       <Link to="/" className="homePage">
-        <img src={Tweeter} className="tweeter" />
+        {/* <img src={Tweeter} className="tweeter" /> */}
+        <h2>Kwetter</h2>
         <img src={TweeterMobile} className="tweeterMobile" />
       </Link>
       <nav className="navBar">
         <NavLink className="navLink" to="/">
           Home
         </NavLink>
-        <NavLink className="navLink" to="/explore">
+        {/* <NavLink className="navLink" to="/explore">
           Explore
         </NavLink>
         <NavLink className="navLink" to="/bookmarks">
           Bookmarks
-        </NavLink>
+        </NavLink> */}
       </nav>
       <div className="userProfile">
         <a

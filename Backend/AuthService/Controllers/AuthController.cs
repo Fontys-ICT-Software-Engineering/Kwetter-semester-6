@@ -3,12 +3,16 @@ using AuthService.Models;
 using AuthService.Services.Authentication;
 using AuthService.Services.MessageProducer;
 using MassTransit;
+using MassTransit.Internals;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using RabbitMQ.Client;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -84,10 +88,13 @@ namespace AuthService.Controllers
             }
         }
 
+
         [HttpGet("/validate", Name = "ValidateUser")]
         [Authorize]
         public async Task<ActionResult<string>> validateUser()
         {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            string userID = getUserID(identity);
             return Ok("user Validated!");
         }
 
@@ -104,5 +111,28 @@ namespace AuthService.Controllers
             await _publishEndpoint.Publish<RegisterUserDTO>(dto);
             return Ok("message sent");
         }
+
+        private string getUserID(ClaimsIdentity identity)
+        {
+            string auth = "Authorization";
+            string Id = string.Empty;
+
+            if (identity != null)
+            {
+                IEnumerable<Claim> claims = identity.Claims;
+                try
+                {
+                    Id = claims.FirstOrDefault(x => x.Type == "ID").Value;
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Token Not available");
+                }
+            }
+            return Id;
+        }
+
+
+
     }
 }

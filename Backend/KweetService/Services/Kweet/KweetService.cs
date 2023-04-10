@@ -19,7 +19,7 @@ namespace Kweet.Services.Kweet
             _mapper = mapper;
         }
 
-        public async Task<List<ReturnKweetDTO>> getAllKweets()
+        public async Task<List<ReturnKweetDTO>> getAllKweets(string userId)
         {
             List<ReturnKweetDTO> response = new List<ReturnKweetDTO>();
 
@@ -29,7 +29,7 @@ namespace Kweet.Services.Kweet
 
                 foreach (KweetModel model in kweets)
                 {
-                    bool liked = await isLikedByUser(model.User);
+                    bool liked = await isLikedByUser(userId, model.Id.ToString());
                     int likes = await getLikesByKweet(model.Id.ToString());
 
                     response.Add(new ReturnKweetDTO(
@@ -42,6 +42,7 @@ namespace Kweet.Services.Kweet
                         liked
                         ));
                 }
+                response = response.OrderByDescending(d => d.Date).ToList();
             }
             catch (Exception ex)
             {
@@ -58,7 +59,7 @@ namespace Kweet.Services.Kweet
                 KweetModel model = await _dataContext.Kweets.SingleAsync(k => k.Id == dto.Id);
 
                 //check of het meegegeven userId match met de originele tweeter
-                if (model.User != dto.User) throw new Exception();
+                if (model.User != dto.User) throw new Exception("users do not match");
 
                 model.Message = dto.Message;
                 model.IsEdited = true;
@@ -68,9 +69,13 @@ namespace Kweet.Services.Kweet
 
                return response = _mapper.Map<ReturnUpdateKweetDTO>(model);
             }
+            catch(InvalidOperationException ex)
+            {
+                throw new Exception("Kweet ID not found");
+            }
             catch (Exception ex)
             {
-                return response;
+                throw;
             }
         }
 
@@ -95,7 +100,15 @@ namespace Kweet.Services.Kweet
         {
             try
             {
+                //remove Kweet
                 _dataContext.Remove(_dataContext.Kweets.Single(k => k.Id == id));
+
+                //remove likes
+                await _dataContext.Likes.Where(k => k.KweetID == id.ToString()).ExecuteDeleteAsync();
+
+                //remove comments            
+                await _dataContext.Reactions.Where(k => k.KweetId == id.ToString()).ExecuteDeleteAsync();
+
                 _dataContext.SaveChanges();
                 return true;
             }
@@ -113,9 +126,6 @@ namespace Kweet.Services.Kweet
                 KweetModel res = _dataContext.Kweets.Single(k => k.Id == id);
                 bool liked = false;
                 int likes = await getLikesByKweet(id.ToString());
-
-
-
 
                 return new ReturnKweetDTO(res.Id, res.Message, res.User, res.Date, res.IsEdited, likes, liked);
             }
@@ -139,11 +149,11 @@ namespace Kweet.Services.Kweet
             }
         }
 
-        private async Task<bool> isLikedByUser(string UserID)
+        private async Task<bool> isLikedByUser(string UserID, string KweetID)
         {
             try
             {
-                if(await _dataContext.Likes.AnyAsync(k => k.UserID == UserID)) return true;
+                if(await _dataContext.Likes.AnyAsync(k => k.UserID == UserID && k.KweetID == KweetID)) return true;
             }
             catch (Exception ex)
             {
@@ -151,12 +161,7 @@ namespace Kweet.Services.Kweet
             }
             return false;
         }
-
-        
-
-
-
+     
     }
-
 
 }

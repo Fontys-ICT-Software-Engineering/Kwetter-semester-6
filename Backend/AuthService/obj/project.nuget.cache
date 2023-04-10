@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gYzRVRtjVwknRN8dPp16FPyKQZhbB9e25dYriTcuuVJQ+TruvIUkpvGpG9FPH1woMDWzyx2oPo1oHWlat8sLCg==",
+  "dgSpecHash": "c4n49HJoBzMCrJcTZtaZs8Ob1L1NuTjrP5jJH9MlYQd3UGn061YCdlWo1jvs3i/6bZztF/f05RF99oyG4oQueQ==",
   "success": true,
-  "projectFilePath": "C:\\Documents\\School\\Fontys ICT\\Semester 6\\Advanced software\\Individueel\\Kwetter-semester-6\\Backend\\AuthService\\AuthService.csproj",
+  "projectFilePath": "C:\\Users\\Nickv\\Documents\\School\\Semester 6\\individueel\\Kwetter-semester-6\\Backend\\AuthService\\AuthService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nickv\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Nickv\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

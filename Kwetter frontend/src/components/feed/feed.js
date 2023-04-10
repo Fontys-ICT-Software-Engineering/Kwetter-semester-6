@@ -16,13 +16,9 @@ export default function Feed() {
 
   const jwt = "jwt_authorization"
   const [tweets, setTweets] = useState([]);
+  const [editable, setEditable] = useState([]);
   const cookies = new Cookies();
   let navigate = useNavigate();
-
-
-  //const test = useValidateCookie();
-
-  //console.log(getJWTToken)
 
   useEffect(() => {
     var config = {
@@ -37,15 +33,31 @@ export default function Feed() {
         setTweets(response.data)
         console.log(response.data)
     }).catch(function( err) {
-      navigate("/login")
+      //navigate("/login")
       console.log(err);
     });
   }, []);
+
+  function isEditable(id) {
+    console.log("id uit methode: " + id);
+    console.log("id uit params: " + localStorage.getItem("editableId"))
+
+    const param = localStorage.getItem("editableId")
+    if(id === param)
+    {
+        return [true];
+    }
+    else {
+        return [false]
+    }
+  }
 
   return(
       <section>
         {tweets.map((post, index) => (
           <Post
+            editable={isEditable(post.id)}
+            edited={post.isEdited}
             user={post.user}
             caption={post.message}
             image="test"

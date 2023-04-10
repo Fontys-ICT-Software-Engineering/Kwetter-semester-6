@@ -6,9 +6,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { deleteTweet } from '../tweets/deleteTweet';
+import Feed from '../feed/feed';
 import { useState } from 'react';
 import UserHeader from '../userHeader/userHeader';
 import Post from './post';
+import returnFeed, { isEditable } from '../feed/ReturnFeed';
+import useEditing from '../feed/ReturnFeed';
 
 
 const options = [
@@ -33,14 +36,13 @@ export function LongMenu(props) {
     }
     else 
     {
-        
+        localStorage.setItem("editableId", index)
+        window.location.reload();
     }
-
     setAnchorEl(null);
   };
 
   const handleClose = (event) => {
-    console.log(event.target.name);
     setAnchorEl(null);
   };
 
@@ -71,12 +73,12 @@ export function LongMenu(props) {
           },
         }}
       >
-        <MenuItem onClick={(event) => handleMenuItemClick(event, "Edit")} disableRipple>
+        <MenuItem style={{gap: 4}} onClick={(event) => handleMenuItemClick("Edit", props.id)} disableRipple>
           <EditIcon />
             Edit
         </MenuItem>
 
-        <MenuItem name="delete" style={{color: 'red'}} onClick={(event) => handleMenuItemClick("Delete", props.id)} disableRipple>
+        <MenuItem style={{color: 'red', gap: 4}} onClick={(event) => handleMenuItemClick("Delete", props.id)} disableRipple>
           <DeleteIcon />
             <a>Delete Kweet</a>
         </MenuItem>
