@@ -63,11 +63,8 @@ export default function Login() {
       navigate("/");
       window.location.reload();
     }).catch(function (error) {
-      console.log('Error', error.message)
       showError(true);
       addCount(count + 1);
-      console.log(error.response.status);
-      console.log(error.response.headers);
     });
 
   };
