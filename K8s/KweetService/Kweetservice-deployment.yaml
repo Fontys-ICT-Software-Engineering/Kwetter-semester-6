@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
       - name: kweetservice
-        image: kweetservice
-        imagePullPolicy: Never
+        image: fendamear/kweetservice
         resources:
           limits:
             memory: 512Mi
