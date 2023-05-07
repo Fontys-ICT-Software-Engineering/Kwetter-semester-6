@@ -15,13 +15,16 @@ namespace KweetService
             CreateMap<ReturnUpdateKweetDTO, KweetModel>();
             CreateMap<KweetModel, ReturnUpdateKweetDTO>();
 
-
-
             CreateMap<PostLikeKweetDTO, Like>();
             CreateMap<Like , PostLikeKweetDTO>();
 
             CreateMap<PostReactionKweetDTO, ReactionKweet>();
             CreateMap<ReactionKweet, PostReactionKweetDTO>();
+
+            CreateMap<ReactionKweet, GetReactionDTO>();
+            CreateMap<GetReactionDTO, ReactionKweet>();
+
+
         }
 
 

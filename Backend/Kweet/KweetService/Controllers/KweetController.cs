@@ -21,7 +21,7 @@ namespace Kweet.Controllers
             _kweetService = kweetService;
         }
 
-        [HttpGet("/kubernetes")]
+        [HttpGet("/[controller]/kubernetes")]
         public string kubernetes()
         {
             return "this works!";
@@ -77,7 +77,7 @@ namespace Kweet.Controllers
             }
         }
 
-        [HttpGet("/id", Name = "GetKweetById")]
+        [HttpGet("/[controller]/id", Name = "GetKweetById")]
         public async Task<ActionResult<ReturnKweetDTO>> findById(Guid id)
         {
             try

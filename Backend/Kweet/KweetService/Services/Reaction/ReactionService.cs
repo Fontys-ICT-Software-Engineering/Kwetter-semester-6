@@ -17,26 +17,19 @@ namespace KweetService.Services.Reaction
             _mapper = mapper;
         }
 
-
-
-
-
-        public async Task<PostReactionKweetDTO> ReactionKweet(PostReactionKweetDTO dto)
+        public async Task<bool> ReactionKweet(PostReactionKweetDTO dto)
         {
             try
             {
                 ReactionKweet reaction = new ReactionKweet(dto.KweetId, dto.UserId, dto.Message);
                 _dataContext.Reactions.Add(reaction);
                 await _dataContext.SaveChangesAsync();
-
+                return true;
             }
             catch (Exception ex)
             {
-
                 throw;
             }
-
-            return dto;
         }
 
         public List<GetReactionDTO> GetReactionsByTweet(string kweetId)
@@ -45,7 +38,7 @@ namespace KweetService.Services.Reaction
 
             try
             {
- 
+                //hier where voor performance, met where laad hij niet de hele dataset in?
                 var kweets = _dataContext.Reactions.Where(i => i.KweetId == kweetId);
 
                 foreach(ReactionKweet reaction in kweets) 

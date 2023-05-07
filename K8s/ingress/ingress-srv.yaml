@@ -7,14 +7,28 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-    - host: acme.com
+    - host: kwetter.com
       http:
         paths:
-          - path: /
+          - path: /Kweet
             pathType: Prefix
             backend:
               service:
                 name: kweetservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /Auth
+            pathType: Prefix
+            backend:
+              service:
+                name: authservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /Profile
+            pathType: Prefix
+            backend:
+              service:
+                name: profileservice-clusterip-srv
                 port:
                   number: 80
           

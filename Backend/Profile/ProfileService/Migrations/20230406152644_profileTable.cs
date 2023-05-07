@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System.Reflection.Metadata.Ecma335;
 
 #nullable disable
 
@@ -8,6 +10,7 @@ namespace ProfileService.Migrations
     /// <inheritdoc />
     public partial class profileTable : Migration
     {
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,5 +45,8 @@ namespace ProfileService.Migrations
         {
 
         }
+        
+
+
     }
 }

@@ -42,6 +42,16 @@ namespace AuthService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9efe7028-c186-46d1-a623-7b66038d70b8"),
+                            DateEnrolled = new DateTime(2023, 4, 26, 14, 27, 9, 401, DateTimeKind.Local).AddTicks(1828),
+                            Email = "string",
+                            Password = "$2a$11$708iVVj6xTVtU6LoUdl95.7CAyoD0mz/w243ox9S6cIqR2iWX63Ky",
+                            Role = 0
+                        });
                 });
 #pragma warning restore 612, 618
         }

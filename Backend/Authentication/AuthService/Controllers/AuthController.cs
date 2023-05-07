@@ -20,7 +20,7 @@ using System.Text.Json;
 namespace AuthService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authService;
@@ -34,7 +34,7 @@ namespace AuthService.Controllers
             _publishEndpoint = publishEndpoint;
         }
 
-        [HttpGet(Name = "GetAllUsers")]
+        [HttpGet("/[Controller]", Name = "GetAllUsers")]
         public async Task<ActionResult<string>> getAllUsers()
         {
             try
@@ -49,7 +49,7 @@ namespace AuthService.Controllers
             }
         }
 
-        [HttpPost("/register", Name = "RegisterUser")]
+        [HttpPost("/[Controller]/register", Name = "RegisterUser")]
         public async Task<ActionResult<CreateUserDTO>> createUser(CreateUserDTO dto)
         {
             try
@@ -71,7 +71,7 @@ namespace AuthService.Controllers
             }
         }
 
-        [HttpPost("/login", Name = "Login")]
+        [HttpPost("/[Controller]/login", Name = "Login")]
         public async Task<ActionResult<TokenDTO>> Login(LoginDTO dto)
         {
             TokenDTO token = new TokenDTO();
@@ -89,7 +89,7 @@ namespace AuthService.Controllers
         }
 
 
-        [HttpGet("/validate", Name = "ValidateUser")]
+        [HttpGet("/[Controller]/validate", Name = "ValidateUser")]
         [Authorize]
         public async Task<ActionResult<string>> validateUser()
         {
@@ -98,14 +98,14 @@ namespace AuthService.Controllers
             return Ok("user Validated!");
         }
 
-        [HttpGet("/validate/admin", Name = "ValidateAdmin")]
+        [HttpGet("/[Controller]/validate/admin", Name = "ValidateAdmin")]
         [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<string>> validateAdmin()
         {
             return Ok("user Validated!");
         }
 
-        [HttpPost("/rabbitMq")]
+        [HttpPost("/[Controller]/rabbitMq")]
         public async Task<ActionResult<RegisterUserDTO>> RabbitMq(RegisterUserDTO dto)
         {
             await _publishEndpoint.Publish<RegisterUserDTO>(dto);

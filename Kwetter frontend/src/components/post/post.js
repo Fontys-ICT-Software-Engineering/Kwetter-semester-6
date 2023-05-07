@@ -28,9 +28,8 @@ function Post(props) {
   }
   const [liked, setLiked] = useState(props.liked);
   const [likes, setLikes] = useState(props.likes);
-  const [retweeted, setRetweeted] = useState(props.retweeted);
-  const [retweets, setretweets] = useState(props.retweets);
   const [comment, setComment] = useState("");
+  const [allcomments, setallcomments] = useState([]);
   const [commentSent, setCommentsent] = useState(null);
   const [edit, setEdit] = useState(props.editable);
   const [editTweet, setEditTweet] = useState(props.caption)
@@ -145,7 +144,45 @@ function Post(props) {
     });
   }
 
-  function cancelEdit () {
+  function getReactionKweets(id) {
+    setallcomments([]);
+    var config = {
+      method: 'get',
+      url: url.reactionUrl + "?KweetID=" + id,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cookies.get(jwt)
+      },
+    };
+    axios(config).then((response) => {
+      //return response.data;
+    }).catch(function (err) {
+      //navigate("/login")
+      console.log(err);
+    });
+
+  }
+
+  // useEffect((post_id) => {
+  //   console.log("id in use effect " + post_id)
+  //   var config = {
+  //     method: 'get',
+  //     url: url.reactionUrl + "?KweetID=" + props.post_id,
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ' + cookies.get(jwt)
+  //     },
+  //   };
+  //   axios(config).then((response) => {
+  //     setallcomments(response.data)
+  //     console.log(response.status)
+  //   }).catch(function (err) {
+  //     //navigate("/login")
+  //     console.log(err);
+  //   });
+  // }, []);
+
+  function cancelEdit() {
     localStorage.removeItem("editableId")
     window.location.reload();
   }
@@ -176,8 +213,8 @@ function Post(props) {
           </Link>
           <p className="postingDate">
             {date.getDate()} {date.toLocaleString("en", { month: "long" })} at{" "}
-            {date.getHours()}:{(date.getMinutes()<10?'0':'') + date.getMinutes()}
-            {props.edited == true ? <> (Edited)</> : null }
+            {date.getHours()}:{(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}
+            {props.edited == true ? <> (Edited)</> : null}
           </p>
         </div>
         {menu(props.post_id)}
@@ -197,7 +234,7 @@ function Post(props) {
           <div className="tweet">
             <button className="button" onClick={() => handleUpdatePost(props.post_id)}>Update</button>
             &nbsp;
-            <button className="button danger" onClick={() => cancelEdit()}>Cancel Update</button>           
+            <button className="button danger" onClick={() => cancelEdit()}>Cancel Update</button>
           </div>
         </>
       ) : <Link
@@ -259,7 +296,40 @@ function Post(props) {
           </i>
         </div>
       </div>
-      {/* <Comment/> */}
+
+      {/* {getReactionKweets.forEach(element => {
+        
+
+
+      })} */}
+
+      {getReactionKweets(props.post_id)}
+
+      {allcomments.map((post, index) => (
+        <Comment
+          caption={post.message}
+          datetime={post.dateSend}
+          key={index}
+        />
+      ))}
+
+      {/* {allcomments.map((post, index) => (
+          <Comment
+            caption = {post.message}
+            datetime={post.dateSend}
+            key={index}
+          />
+        ))} */}
+
+
+
+      {/* {allcomments.map((post, index) => (
+          <Comment
+            caption = {post.message}
+            datetime={post.dateSend}
+            key={index}
+          />
+        ))} */}
     </article>
   );
 };

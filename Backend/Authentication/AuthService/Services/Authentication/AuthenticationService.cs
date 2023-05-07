@@ -5,6 +5,7 @@ using BCrypt.Net;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 
 namespace AuthService.Services.Authentication
@@ -27,19 +28,19 @@ namespace AuthService.Services.Authentication
         {
             List<UserDTO> users = new List<UserDTO>();
 
-            //try
-            //{
-            //    List<User> userlist = await _dataContext.users.ToListAsync();
+            try
+            {
+                List<User> userlist = await _dataContext.users.ToListAsync();
 
-            //    foreach (User user in userlist)
-            //    {
-            //        users.Add(new UserDTO(user.UserName));
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw;
-            //}
+                foreach (User user in userlist)
+                {
+                    users.Add(new UserDTO(user.Email));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
             return users;
         }
 
@@ -97,16 +98,20 @@ namespace AuthService.Services.Authentication
 
         public async Task<TokenDTO> GenerateToken(LoginDTO dto)
         {
-            User user = _dataContext.users.Single(u => u.Email == dto.Email);
             TokenDTO token = new TokenDTO();
 
             TokenManager manager = new TokenManager(_configuration);
 
+
             try
             {
-
-                if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password)) throw new Exception();
+                User user = await _dataContext.users.SingleAsync(u => u.Email == dto.Email);
+                if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password)) throw new Exception("Email or passwords do not match");
                 token.Token = manager.CreateToken(user).ToString();
+            }
+            catch(InvalidOperationException ex)
+            {
+                throw new Exception("User does not exist");
             }
             catch (Exception ex)
             {

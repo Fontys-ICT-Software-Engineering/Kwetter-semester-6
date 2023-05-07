@@ -39,8 +39,6 @@ export default function Feed() {
   }, []);
 
   function isEditable(id) {
-    console.log("id uit methode: " + id);
-    console.log("id uit params: " + localStorage.getItem("editableId"))
 
     const param = localStorage.getItem("editableId")
     if(id === param)

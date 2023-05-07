@@ -1,4 +1,6 @@
 ﻿using AuthService.DTOs;
+using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using ProfileService.Data;
 using ProfileService.DTOs;
 using ProfileService.Models;
@@ -38,6 +40,36 @@ namespace ProfileService.Services
             {
                 throw;
             }
+        }
+
+        public async Task<List<ProfileDTO>> getAllProfiles()
+        {
+            List<ProfileDTO> result = new List<ProfileDTO>();
+
+            try
+            {
+                List<Profile> profiles = await _dataContext.Profiles.ToListAsync();
+
+                foreach(Profile profile in profiles) 
+                {
+                    result.Add(new ProfileDTO()
+                    {
+                        id = profile.Id,
+                        adress = profile.Adress,
+                        bio = profile.Bio,
+                        name = profile.Name,
+                        userName = profile.UserName
+                    });                             
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+
+                throw;
+            }
+            return result;
+
         }
     }
 }
