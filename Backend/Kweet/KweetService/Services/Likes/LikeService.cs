@@ -2,6 +2,10 @@
 using Kweet.Data;
 using KweetService.DTOs.LikeDTO;
 using KweetService.Models;
+using MassTransit;
+using MassTransit.Clients;
+using SharedClasses;
+using SharedClasses.Likes;
 
 namespace KweetService.Services.Likes
 {
@@ -9,16 +13,20 @@ namespace KweetService.Services.Likes
     {
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
+        private readonly IRequestClient<WriteLikeDTO> _client;
 
-        public LikeService(DataContext context, IMapper mapper)
+
+        public LikeService(DataContext context, IMapper mapper, IRequestClient<WriteLikeDTO> writeLikeDTO)
         {
             _dataContext = context;
             _mapper = mapper;
+            _client = writeLikeDTO;
         }
 
         public async Task<bool> LikeKweet(PostLikeKweetDTO dto)
         {
             PostLikeKweetDTO res = new PostLikeKweetDTO();
+            LikeStatus likeStatus;
 
             try
             {
@@ -28,19 +36,32 @@ namespace KweetService.Services.Likes
                 {
                     _dataContext.Remove(_dataContext.Likes.Single(k => k.KweetID == dto.KweetId && k.UserID == dto.UserId));
                     _dataContext.SaveChanges();
-                    return false;
+                    likeStatus = LikeStatus.DELETE;
+                }
+                else
+                {
+                    LikeModel like = _mapper.Map<LikeModel>(dto);
+                    _dataContext.Likes.Add(like);
+                    _dataContext.SaveChanges();
+                    likeStatus = LikeStatus.CREATE;
                 }
 
-                Like like = _mapper.Map<Like>(dto);
+                WriteLikeDTO rabbit = new WriteLikeDTO
+                {
+                    KweetId = dto.KweetId,
+                    UserId = dto.UserId,
+                    status = likeStatus
+                };
 
-                _dataContext.Likes.Add(like);
-                _dataContext.SaveChanges();
+                var response = await _client.GetResponse<MassTransitResponse>(rabbit);
+
+                if (!response.Message.Succes) throw new Exception();
 
                 return true;
             }
             catch (Exception)
             {
-
+                return false;
                 throw;
             }
 

@@ -9,6 +9,8 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using KweetService.Services.Reaction;
 using KweetService.Services.Likes;
+using KweetService.DTOs.SharedClasses;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,11 +37,10 @@ builder.Services.AddDbContext<DataContext>(options =>
     }
     else
     {
-        options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
         //options.UseMySql(builder.Configuration.GetConnectionString("KubernetesConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
+        options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
     }
     //options.UseMySql(builder.Configuration.GetConnectionString("AzureDeployment"), new MySqlServerVersion(new Version(5, 7, 31)));
-
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -75,12 +76,22 @@ builder.Services.AddScoped<IReactionService, ReactionService>();
 builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<IKweetService, Kweet.Services.Kweet.KweetService>();
 
+var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
+builder.Services.AddMassTransit(mt => mt.AddMassTransit(x => {
+    x.UsingRabbitMq((cntxt, cfg) => {
+        cfg.Host(rabbitMqSettings.Uri, c => {
+            c.Username(rabbitMqSettings.UserName);
+            c.Password(rabbitMqSettings.Password);
+        });
+    });
+}));
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<DataContext>();
-    //context.Database.Migrate();
+    context.Database.Migrate();
 }
 
 //Configure the HTTP request pipeline.

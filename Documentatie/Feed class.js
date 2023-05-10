@@ -44,5 +44,15 @@ software architectuur met wat al gemaakt is
 laten zien online deployment applicatie
 roadmap
 
+valideren security
+monitoring in de cloud
+ontkoppeling schrijven/lezen
+onderzoek capteren CAP theorum
 
+focus op kubernetes en CI/CD
 
+dis data
+verschillende database engines
+AVG (security)
+func. maken voor verwijderen gebruiker (anoniem maken/verwijderen)
+CQRS

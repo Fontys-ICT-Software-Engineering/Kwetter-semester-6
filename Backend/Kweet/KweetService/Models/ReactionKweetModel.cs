@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KweetService.Models
 {
-    public class ReactionKweet
+    public class ReactionKweetModel
     {
         [Key]
         public Guid Id { get; set; }
@@ -18,10 +18,10 @@ namespace KweetService.Models
 
         public DateTime DateSend { get; set; }  
 
-        public ReactionKweet() { }  
+        public ReactionKweetModel() { }  
 
 
-        public ReactionKweet(string kweetId, string userId, string message)
+        public ReactionKweetModel(string kweetId, string userId, string message)
         {
             Id = Guid.NewGuid();
             KweetId = kweetId;

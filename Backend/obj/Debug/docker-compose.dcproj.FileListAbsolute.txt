@@ -1,4 +1,3 @@
-C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
 C:\Documents\School\Fontys ICT\Semester 6\Advanced software\Individueel\Kwetter-semester-6\Backend\bin\Debug\appsettings.Development.json
 C:\Documents\School\Fontys ICT\Semester 6\Advanced software\Individueel\Kwetter-semester-6\Backend\bin\Debug\appsettings.json
 C:\Documents\School\Fontys ICT\Semester 6\Advanced software\Individueel\Kwetter-semester-6\Backend\bin\Debug\AuthService.deps.json
@@ -48,3 +47,4 @@ C:\Documents\School\Fontys ICT\Semester 6\Advanced software\Individueel\Kwetter-
 C:\Documents\School\Fontys ICT\Semester 6\Advanced software\Individueel\Kwetter-semester-6\Backend\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
 C:\Documents\School\Fontys ICT\Semester 6\Advanced software\Individueel\Kwetter-semester-6\Backend\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
 C:\Documents\School\Fontys ICT\Semester 6\Advanced software\Individueel\Kwetter-semester-6\Backend\obj\Debug\docker-compose.dcproj.CopyComplete
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\Backend\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache

@@ -24,16 +24,16 @@ namespace Kweet.Data
             modelBuilder.Entity<KweetModel>().HasData(new KweetModel { Id = Guid.NewGuid(), Date = DateTime.Now, IsEdited = true, Message = "testMessage 5", User = "User2" });
             modelBuilder.Entity<KweetModel>().HasData(new KweetModel { Id = Guid.NewGuid(), Date = DateTime.Now, IsEdited = false, Message = "testMessage 6", User = "User2" });
 
-            modelBuilder.Entity<Like>().HasData(new Like { Id = 1, KweetID = id1.ToString(), UserID = "User2" });
-            modelBuilder.Entity<Like>().HasData(new Like { Id = 2, KweetID = id1.ToString(), UserID = "User1" });
-            modelBuilder.Entity<Like>().HasData(new Like { Id = 3, KweetID = id1.ToString(), UserID = "User1" });
+            modelBuilder.Entity<LikeModel>().HasData(new LikeModel { Id = Guid.NewGuid(), KweetID = id1.ToString(), UserID = "User2" });
+            modelBuilder.Entity<LikeModel>().HasData(new LikeModel { Id = Guid.NewGuid(), KweetID = id1.ToString(), UserID = "User1" });
+            modelBuilder.Entity<LikeModel>().HasData(new LikeModel { Id = Guid.NewGuid(), KweetID = id1.ToString(), UserID = "User1" });
 
         }
 
         public virtual DbSet<KweetModel> Kweets { get; set; }
 
-        public virtual DbSet<Like> Likes { get; set; }  
+        public virtual DbSet<LikeModel> Likes { get; set; }  
 
-        public DbSet<ReactionKweet> Reactions { get; set; } 
+        public DbSet<ReactionKweetModel> Reactions { get; set; } 
     }
 }

@@ -21,7 +21,7 @@ namespace KweetService.Services.Reaction
         {
             try
             {
-                ReactionKweet reaction = new ReactionKweet(dto.KweetId, dto.UserId, dto.Message);
+                ReactionKweetModel reaction = new ReactionKweetModel(dto.KweetId, dto.UserId, dto.Message);
                 _dataContext.Reactions.Add(reaction);
                 await _dataContext.SaveChangesAsync();
                 return true;
@@ -41,7 +41,7 @@ namespace KweetService.Services.Reaction
                 //hier where voor performance, met where laad hij niet de hele dataset in?
                 var kweets = _dataContext.Reactions.Where(i => i.KweetId == kweetId);
 
-                foreach(ReactionKweet reaction in kweets) 
+                foreach(ReactionKweetModel reaction in kweets) 
                 { 
                     Dtos.Add(_mapper.Map<GetReactionDTO>(reaction));                                          
                 }

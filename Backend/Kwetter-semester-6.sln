@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileService", "Profile\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetServiceTest", "Kweet\KweetServiceTest\KweetServiceTest.csproj", "{FED7E069-0297-4E98-9131-FDB868A8075B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FollowService", "Follow\FollowService\FollowService.csproj", "{7151B44E-E5B4-4BC3-9960-9DCE2215B633}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FollowService", "Follow\FollowService\FollowService.csproj", "{7151B44E-E5B4-4BC3-9960-9DCE2215B633}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KweetReadService", "Kweet\KweetReadService\KweetReadService.csproj", "{84DF8521-85C0-44A7-8F2D-79A07B004FFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{7151B44E-E5B4-4BC3-9960-9DCE2215B633}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7151B44E-E5B4-4BC3-9960-9DCE2215B633}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7151B44E-E5B4-4BC3-9960-9DCE2215B633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84DF8521-85C0-44A7-8F2D-79A07B004FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84DF8521-85C0-44A7-8F2D-79A07B004FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84DF8521-85C0-44A7-8F2D-79A07B004FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84DF8521-85C0-44A7-8F2D-79A07B004FFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

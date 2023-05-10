@@ -2,6 +2,7 @@
 using AuthService.DTOs;
 using ProfileService.Services;
 
+
 namespace ProfileService.Models.RabbitMq
 {
     public class ProfileConsumer : IConsumer<RegisterUserDTO>
@@ -16,6 +17,7 @@ namespace ProfileService.Models.RabbitMq
 
         public async Task Consume(ConsumeContext<RegisterUserDTO> context)
         {
+
             RegisterUserDTO response = new RegisterUserDTO()
             {
                 AuthId = context.Message.AuthId,

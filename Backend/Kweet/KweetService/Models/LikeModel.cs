@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KweetService.Models
 {
-    public class Like
+    public class LikeModel
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [ForeignKey("Kweet")]
         public string KweetID { get; set; }
         [Required]

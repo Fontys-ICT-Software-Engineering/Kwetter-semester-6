@@ -22,19 +22,19 @@ namespace KweetServiceTest.Services.TestHelper
             };
         }
 
-        public static List<Like> GetFakeLikeList()
+        public static List<LikeModel> GetFakeLikeList()
         {
-            return new List<Like>()
+            return new List<LikeModel>()
             {
-                new Like()
+                new LikeModel()
             };
         }
 
-        public static List<ReactionKweet> GetFakeReactionList()
+        public static List<ReactionKweetModel> GetFakeReactionList()
         {
-            return new List<ReactionKweet>()
+            return new List<ReactionKweetModel>()
             {
-                new ReactionKweet()
+                new ReactionKweetModel()
             };
         }
     }

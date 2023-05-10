@@ -3,9 +3,12 @@ using KweetService.DTOs.KweetDTO;
 using KweetService.DTOs.LikeDTO;
 using KweetService.DTOs.ReactionDTO;
 using KweetService.Models;
+using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SharedClasses;
+using SharedClasses.Kweet;
 using System.Security.Claims;
 
 namespace Kweet.Controllers
@@ -15,10 +18,14 @@ namespace Kweet.Controllers
     public class KweetController : ControllerBase
     {
         private readonly IKweetService _kweetService;
+        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly IRequestClient<WriteKweetDTO> _client;
 
-        public KweetController(IKweetService kweetService)
+        public KweetController(IKweetService kweetService, IPublishEndpoint endpoint, IRequestClient<WriteKweetDTO> client)
         {
             _kweetService = kweetService;
+            _publishEndpoint = endpoint;
+            _client = client;
         }
 
         [HttpGet("/[controller]/kubernetes")]
@@ -107,6 +114,25 @@ namespace Kweet.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("/rabbitMq")]
+        public async Task<ActionResult<PostKweetDTO>> PostRabbitMq(WriteKweetDTO dto)
+        {
+            try
+            {
+               
+                var response = await _client.GetResponse<MassTransitResponse>(dto);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok(dto);
+
         }
 
         private string getUserID(ClaimsIdentity identity)

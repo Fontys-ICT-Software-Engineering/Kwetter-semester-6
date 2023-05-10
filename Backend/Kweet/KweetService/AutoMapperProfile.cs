@@ -4,6 +4,7 @@ using KweetService.DTOs.KweetDTO;
 using KweetService.DTOs.LikeDTO;
 using KweetService.DTOs.ReactionDTO;
 using KweetService.Models;
+using SharedClasses.Kweet;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace KweetService
@@ -15,15 +16,19 @@ namespace KweetService
             CreateMap<ReturnUpdateKweetDTO, KweetModel>();
             CreateMap<KweetModel, ReturnUpdateKweetDTO>();
 
-            CreateMap<PostLikeKweetDTO, Like>();
-            CreateMap<Like , PostLikeKweetDTO>();
+            CreateMap<PostLikeKweetDTO, LikeModel>();
+            CreateMap<LikeModel , PostLikeKweetDTO>();
 
-            CreateMap<PostReactionKweetDTO, ReactionKweet>();
-            CreateMap<ReactionKweet, PostReactionKweetDTO>();
+            CreateMap<PostReactionKweetDTO, ReactionKweetModel>();
+            CreateMap<ReactionKweetModel, PostReactionKweetDTO>();
 
-            CreateMap<ReactionKweet, GetReactionDTO>();
-            CreateMap<GetReactionDTO, ReactionKweet>();
+            CreateMap<ReactionKweetModel, GetReactionDTO>();
+            CreateMap<GetReactionDTO, ReactionKweetModel>();
 
+            //rabbitMq automappers
+
+            CreateMap<KweetModel, WriteKweetDTO>();
+            CreateMap<KweetModel, WriteKweetUpdateDTO>();
 
         }
 

@@ -4,7 +4,10 @@ using Kweet.Models;
 using KweetService.DTOs;
 using KweetService.DTOs.KweetDTO;
 using KweetService.Models;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using SharedClasses;
+using SharedClasses.Kweet;
 
 namespace Kweet.Services.Kweet
 {
@@ -12,11 +15,18 @@ namespace Kweet.Services.Kweet
     {
         private readonly DataContext _dataContext;
         private readonly IMapper _mapper;
+        private readonly IRequestClient<WriteKweetDTO> _writeKweetClient;
+        private readonly IRequestClient<WriteDeleteKweetDTO> _writeDeleteKweetClient;
+        private readonly IRequestClient<WriteKweetUpdateDTO> _writeUpdateKweetClient;
 
-        public KweetService(DataContext context, IMapper mapper) 
+
+        public KweetService(DataContext context, IMapper mapper, IRequestClient<WriteKweetDTO> writeKweetClient, IRequestClient<WriteDeleteKweetDTO> writeDeleteKweetClient, IRequestClient<WriteKweetUpdateDTO> writeUpdateKweetClient) 
         {
             _dataContext = context;
             _mapper = mapper;
+            _writeDeleteKweetClient = writeDeleteKweetClient;
+            _writeKweetClient = writeKweetClient;
+            _writeUpdateKweetClient = writeUpdateKweetClient;   
         }
 
         //for testing
@@ -73,6 +83,12 @@ namespace Kweet.Services.Kweet
                 _dataContext.Kweets.Update(model);
                 _dataContext.SaveChanges();
 
+                WriteKweetUpdateDTO rabbit = _mapper.Map<WriteKweetUpdateDTO>(model);
+
+                var status = await _writeUpdateKweetClient.GetResponse<MassTransitResponse>(rabbit);
+
+                if (!status.Message.Succes) throw new Exception("Failed to synchronize databases");
+
                return response = _mapper.Map<ReturnUpdateKweetDTO>(model);
             }
             catch(InvalidOperationException ex)
@@ -93,6 +109,15 @@ namespace Kweet.Services.Kweet
             {
                 _dataContext.Kweets.Add(post);
                 _dataContext.SaveChanges();
+
+                WriteKweetDTO rabbit = _mapper.Map<WriteKweetDTO>(post);
+                var status = await _writeKweetClient.GetResponse<MassTransitResponse>(rabbit);
+
+                if(!status.Message.Succes)
+                {
+                    _dataContext.Remove(_dataContext.Kweets.Single(k => k.Id == post.Id));
+                    throw new Exception("Failed To Synchronize databases");
+                }
             }
             catch (Exception ex)
             {
@@ -106,6 +131,9 @@ namespace Kweet.Services.Kweet
         {
             try
             {
+                var status = await _writeDeleteKweetClient.GetResponse<MassTransitResponse>(new WriteDeleteKweetDTO { Id = id });
+                if (!status.Message.Succes) throw new Exception("failed to synchronize databases");
+
                 //remove Kweet
                 _dataContext.Remove(_dataContext.Kweets.Single(k => k.Id == id));
 
@@ -116,6 +144,7 @@ namespace Kweet.Services.Kweet
                 await _dataContext.Reactions.Where(k => k.KweetId == id.ToString()).ExecuteDeleteAsync();
 
                 _dataContext.SaveChanges();
+
                 return true;
             }
             catch (Exception)
@@ -140,7 +169,6 @@ namespace Kweet.Services.Kweet
                 throw;
             }
         }
-
 
         private async Task<int> getLikesByKweet(string KweetID)
         {
@@ -168,6 +196,7 @@ namespace Kweet.Services.Kweet
             return false;
         }
      
+
     }
 
 }

@@ -46,59 +46,59 @@ namespace Kweet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0871edc8-1916-4ce6-9ed9-15c1fc38bb65"),
-                            Date = new DateTime(2023, 4, 26, 14, 28, 6, 377, DateTimeKind.Local).AddTicks(1610),
+                            Id = new Guid("9d382436-f61d-4f8f-aca4-265c3b058488"),
+                            Date = new DateTime(2023, 5, 10, 14, 32, 41, 696, DateTimeKind.Local).AddTicks(4269),
                             IsEdited = false,
                             Message = "testMessage 1",
                             User = "User1"
                         },
                         new
                         {
-                            Id = new Guid("fb8afad9-dd53-4e02-8fe7-53eadce5992c"),
-                            Date = new DateTime(2023, 4, 26, 14, 28, 6, 377, DateTimeKind.Local).AddTicks(1679),
+                            Id = new Guid("6d237924-a3fe-454d-9d61-afa9359205c2"),
+                            Date = new DateTime(2023, 5, 10, 14, 32, 41, 696, DateTimeKind.Local).AddTicks(4348),
                             IsEdited = true,
                             Message = "testMessage 2",
                             User = "User1"
                         },
                         new
                         {
-                            Id = new Guid("ddd51194-7632-4d3b-9ab0-c9609ba5d73b"),
-                            Date = new DateTime(2023, 4, 26, 14, 28, 6, 377, DateTimeKind.Local).AddTicks(1691),
+                            Id = new Guid("9e7e04c6-692d-4f25-9ccc-6541acb9add8"),
+                            Date = new DateTime(2023, 5, 10, 14, 32, 41, 696, DateTimeKind.Local).AddTicks(4373),
                             IsEdited = false,
                             Message = "testMessage 3",
                             User = "User1"
                         },
                         new
                         {
-                            Id = new Guid("9c555efc-1721-4844-a8cc-24043dc97651"),
-                            Date = new DateTime(2023, 4, 26, 14, 28, 6, 377, DateTimeKind.Local).AddTicks(1702),
+                            Id = new Guid("daf79d49-6e0d-44fc-942f-551b29025fba"),
+                            Date = new DateTime(2023, 5, 10, 14, 32, 41, 696, DateTimeKind.Local).AddTicks(4385),
                             IsEdited = false,
                             Message = "testMessage 4",
                             User = "User1"
                         },
                         new
                         {
-                            Id = new Guid("9fcb1430-a7ad-463e-9bd3-fa000656176e"),
-                            Date = new DateTime(2023, 4, 26, 14, 28, 6, 377, DateTimeKind.Local).AddTicks(1713),
+                            Id = new Guid("4d18d8b7-f3a6-4d78-80e0-768af0bbc19a"),
+                            Date = new DateTime(2023, 5, 10, 14, 32, 41, 696, DateTimeKind.Local).AddTicks(4423),
                             IsEdited = true,
                             Message = "testMessage 5",
                             User = "User2"
                         },
                         new
                         {
-                            Id = new Guid("48ebef61-515d-4891-9aa3-82ff2d53bbdb"),
-                            Date = new DateTime(2023, 4, 26, 14, 28, 6, 377, DateTimeKind.Local).AddTicks(1726),
+                            Id = new Guid("09a6898f-f1b9-4d2c-9e68-c555ae1bd8ed"),
+                            Date = new DateTime(2023, 5, 10, 14, 32, 41, 696, DateTimeKind.Local).AddTicks(4438),
                             IsEdited = false,
                             Message = "testMessage 6",
                             User = "User2"
                         });
                 });
 
-            modelBuilder.Entity("KweetService.Models.Like", b =>
+            modelBuilder.Entity("KweetService.Models.LikeModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("KweetID")
                         .IsRequired()
@@ -115,25 +115,25 @@ namespace Kweet.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            KweetID = "0871edc8-1916-4ce6-9ed9-15c1fc38bb65",
+                            Id = new Guid("bbd6fcd2-6022-46e6-9614-b173b0857865"),
+                            KweetID = "9d382436-f61d-4f8f-aca4-265c3b058488",
                             UserID = "User2"
                         },
                         new
                         {
-                            Id = 2,
-                            KweetID = "0871edc8-1916-4ce6-9ed9-15c1fc38bb65",
+                            Id = new Guid("c905083a-0328-4f27-8992-7810dc15a28b"),
+                            KweetID = "9d382436-f61d-4f8f-aca4-265c3b058488",
                             UserID = "User1"
                         },
                         new
                         {
-                            Id = 3,
-                            KweetID = "0871edc8-1916-4ce6-9ed9-15c1fc38bb65",
+                            Id = new Guid("b6f496f5-e8b0-4c9a-b3f8-a6cc2552f9c2"),
+                            KweetID = "9d382436-f61d-4f8f-aca4-265c3b058488",
                             UserID = "User1"
                         });
                 });
 
-            modelBuilder.Entity("KweetService.Models.ReactionKweet", b =>
+            modelBuilder.Entity("KweetService.Models.ReactionKweetModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
