@@ -10,6 +10,8 @@ import { getUserID } from "../../Hooks/Hooks";
 import Cookies from "universal-cookie";
 import jwtDecode from "jwt-decode";
 import * as url from '../../baseUrl'
+import { Collapse, Button } from "react-bootstrap";
+import CollapsiblePanel from "./CollapsiblePanel";
 
 
 function Post(props) {
@@ -28,7 +30,7 @@ function Post(props) {
   }
   const [liked, setLiked] = useState(props.liked);
   const [likes, setLikes] = useState(props.likes);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState([]);
   const [allcomments, setallcomments] = useState([]);
   const [commentSent, setCommentsent] = useState(null);
   const [edit, setEdit] = useState(props.editable);
@@ -39,25 +41,29 @@ function Post(props) {
   };
 
   const sendComment = () => {
-    // setComment("");
-    // let data = new FormData();
-    // data.append("caption", comment);
-    // let url = `https://tweeter-8qqa.onrender.com/${props.post_id.$oid}/comments`;
-    // axios({
-    //   method: "post",
-    //   url: url,
-    //   data: data,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     Authorization: props.token,
-    //   },
-    // })
-    //   .then((res) => {
-    //     setCommentsent(!commentSent);
-    //     props.onSendComment(commentSent);
-    //     navigate(`/${props.username}/${props.post_id.$oid}`);
-    //   })
-    //   .catch((err) => console.log(false));
+    var data = JSON.stringify({
+      "KweetId": props.post_id,
+      "UserId": decoded.ID,
+      "Message": comment
+    })
+
+    console.log(data)
+
+    var config = {
+      method: 'post',
+      url: url.reactionUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cookies.get(jwt)
+      },
+      data : data
+    };
+    axios(config).then((response) => {
+      showComments(props.post_id)
+    }).catch(function (err) {
+      //navigate("/login")
+      console.log(err);
+    });
   };
 
   function likePost() {
@@ -161,6 +167,23 @@ function Post(props) {
       console.log(err);
     });
 
+  }
+
+  function showComments(id) {
+    var config = {
+      method: 'get',
+      url: url.reactionUrl + "?KweetID=" + id,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + cookies.get(jwt)
+      },
+    };
+    axios(config).then((response) => {
+      setallcomments(response.data)
+      console.log(response.data)
+    }).catch(function (err) {
+      console.log(err);
+    });
   }
 
   // useEffect((post_id) => {
@@ -274,6 +297,15 @@ function Post(props) {
           <span>{liked ? "Liked" : "Like"}</span>
         </a>
       </div>
+      <Button onClick={() => showComments(props.post_id)}>See Comments</Button>
+      {allcomments.map((post, index) => (
+        <Comment
+          caption={post.message}
+          id={post.id}
+          datetime={post.dateSend}
+          key={index}
+        />
+      ))}
       <div className="commentCard">
         <img src={props.imageURL} className="posterImage" />
         <div
@@ -296,40 +328,6 @@ function Post(props) {
           </i>
         </div>
       </div>
-
-      {/* {getReactionKweets.forEach(element => {
-        
-
-
-      })} */}
-
-      {getReactionKweets(props.post_id)}
-
-      {allcomments.map((post, index) => (
-        <Comment
-          caption={post.message}
-          datetime={post.dateSend}
-          key={index}
-        />
-      ))}
-
-      {/* {allcomments.map((post, index) => (
-          <Comment
-            caption = {post.message}
-            datetime={post.dateSend}
-            key={index}
-          />
-        ))} */}
-
-
-
-      {/* {allcomments.map((post, index) => (
-          <Comment
-            caption = {post.message}
-            datetime={post.dateSend}
-            key={index}
-          />
-        ))} */}
     </article>
   );
 };

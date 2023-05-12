@@ -10,6 +10,8 @@ import * as url from '../../baseUrl.js'
 import useValidateCookie, { getJWTToken, getUserID } from '../../Hooks/Hooks'
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom"; 
+import jwtDecode from "jwt-decode";
+import { LongMenu } from '../post/Menu'
 
 
 const Comment = (props) => {
@@ -20,42 +22,34 @@ const Comment = (props) => {
 
   const [liked, setLiked] = useState(props.liked);
   const [likes, setLikes] = useState(0);
+  const decoded = jwtDecode(cookies.get("jwt_authorization"))
 
-  const likeComment = () => {
-    // setLiked(!liked);
-    // let url = `hhttps://tweeter-8qqa.onrender.com/comment/${props.id}/like`;
-    // axios({
-    //   method: "get",
-    //   url: url,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //     Authorization: props.token,
-    //   },
-    // })
-    //   .then((res) => {
-    //     setLiked(res.data.liked);
-    //     setLikes(res.data.likes);
-    //   })
-    //   .catch((err) => setLiked(!liked));
-  };
+  function menu() {
+    if (props.user === decoded.ID) {
+      return <div className="justify-end"><LongMenu id={props.post_id}></LongMenu></div>
+    }
+  }
 
   // let date = new Date(props.date.$date);
   return (
     <div className="Comment">
-      <img src={props.user.profile_image} className="posterImage" />
+      <img src={"https://drive.google.com/uc?export=view&id=1LUxHzacFb2IlZSTmgxrrOK04Sz7uTKQggQ"} className="posterImage" />
       <div>
         <div>
           {/* <Link to={`/profile/tweets/${props.user._id.$oid}`}>
             {props.user.username}
           </Link> */}
           <p>
+            Fendamear @ 
             {date.getDate()} {date.toLocaleString("en", { month: "long" })} at{" "}
             {date.getUTCHours()}:{date.getUTCMinutes()}
+            {menu(props.post_id)}
+
           </p>
           <p>{props.caption}</p>
         </div>
         <div>
-          <a
+          {/* <a
             onClick={likeComment}
             style={
               liked
@@ -65,8 +59,8 @@ const Comment = (props) => {
           >
             <i className="material-icons-outlined">favorite_border</i>
             {liked ? "Liked" : "Like"}
-          </a>
-          <a>{likes} Likes</a>
+          </a> */}
+          {/* <a>{likes} Likes</a> */}
         </div>
       </div>
     </div>
