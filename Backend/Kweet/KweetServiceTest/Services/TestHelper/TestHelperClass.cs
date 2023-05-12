@@ -1,5 +1,5 @@
 ﻿using Kweet.Models;
-using KweetService.Models;
+using KweetWriteService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

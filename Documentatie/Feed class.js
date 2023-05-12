@@ -4,8 +4,6 @@ wachtwoord mysql database:
 
 $ kubectl run -it --rm --image=mysql:8.0 --restart=Never mysql-client -- mysql -h mysql-clusterip-srv -password="#3WR$G28ZGl"
 
-
-
 commands run:
 
 kubectl apply -f carmicroservice-deployment.yaml
@@ -56,3 +54,9 @@ verschillende database engines
 AVG (security)
 func. maken voor verwijderen gebruiker (anoniem maken/verwijderen)
 CQRS
+
+helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-basic --set controller.replicaCount=1 --set controller.nodSelector."beta\.kubernetes\.io/os="=linux --set controller.service.externalTrafficPolicy=Local
+
+
+$ docker run -d --hostname localhost --name test-naam -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
+

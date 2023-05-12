@@ -1,12 +1,15 @@
-using KweetReadService.Consumers;
+using KweetReadService.Consumers.Kweet;
 using KweetReadService.Consumers.Like;
+using KweetReadService.Consumers.Reaction;
 using KweetReadService.Data.Kweet;
 using KweetReadService.Data.Likes;
 using KweetReadService.Data.MongoDB;
+using KweetReadService.Data.Reaction;
 using KweetReadService.DTOs.SharedClasses;
 using KweetReadService.Models;
 using KweetReadService.Services.Kweet;
 using KweetReadService.Services.Like;
+using KweetReadService.Services.Reaction;
 using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -36,9 +39,10 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddScoped<Ilikeservice, LikeService>();
 builder.Services.AddScoped(typeof(IKweetMongoRepository<>), typeof(KweetRepository<>));
 builder.Services.AddScoped(typeof(ILikeMongoRepository<>), typeof(LikeRepository<>));
+builder.Services.AddScoped(typeof(IReactionMongoRepository<>), typeof(ReactionRepository<>));
 builder.Services.AddScoped<IKweetReadService, KweetReadService.Services.Kweet.KweetReadService>();
 builder.Services.AddScoped<Ilikeservice, LikeService>();
-
+builder.Services.AddScoped<IReactionService, ReactionService>();
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
@@ -85,10 +89,20 @@ builder.Services.AddMassTransit(mt => mt.AddMassTransit(x =>
     mt.AddConsumer<LikeConsumer>();
     mt.AddRequestClient<LikeConsumer>();
 
+    mt.AddConsumer<CreateReactionKweetConsumer>();
+    mt.AddRequestClient<CreateReactionKweetConsumer>();
+
+    mt.AddConsumer<DeleteReactionKweetConsumer>();
+    mt.AddRequestClient<DeleteReactionKweetConsumer>();
 
     x.UsingRabbitMq((ctx, cfg) =>
     {
-        cfg.Host(rabbitMqSettings.Uri, c =>
+        //cfg.Host(rabbitMqSettings.Uri, c =>
+        //{
+        //    c.Username(rabbitMqSettings.UserName);
+        //    c.Password(rabbitMqSettings.Password);
+        //});
+        cfg.Host(rabbitMqSettings.Uri, "/", c =>
         {
             c.Username(rabbitMqSettings.UserName);
             c.Password(rabbitMqSettings.Password);
@@ -111,6 +125,16 @@ builder.Services.AddMassTransit(mt => mt.AddMassTransit(x =>
         cfg.ReceiveEndpoint("LikeKweet", c =>
         {
             c.ConfigureConsumer<LikeConsumer>(ctx);
+
+        });
+        cfg.ReceiveEndpoint("CreateReactionKweet", c =>
+        {
+            c.ConfigureConsumer<CreateReactionKweetConsumer>(ctx);
+
+        });
+        cfg.ReceiveEndpoint("DeleteReactionKweet", c =>
+        {
+            c.ConfigureConsumer<DeleteReactionKweetConsumer>(ctx);
 
         });
     });

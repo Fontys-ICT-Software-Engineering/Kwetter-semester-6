@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
       - name: profileservice
-        image: profileservice
-        imagePullPolicy: Never
+        image: profileservice:latest
         resources:
           limits:
             memory: 512Mi

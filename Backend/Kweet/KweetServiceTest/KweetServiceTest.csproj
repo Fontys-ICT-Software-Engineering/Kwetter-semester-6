@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KweetService\KweetService.csproj" />
+    <ProjectReference Include="..\KweetWriteService\KweetWriteService.csproj" />
   </ItemGroup>
 
 </Project>

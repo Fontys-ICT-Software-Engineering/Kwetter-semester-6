@@ -2,7 +2,7 @@
 {
     public class GetReactionDTO
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string KweetId { get; set; }
 

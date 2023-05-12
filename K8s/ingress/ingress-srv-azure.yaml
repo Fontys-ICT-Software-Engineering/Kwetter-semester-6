@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  rules:
+    - http: 
+        paths:
+          - path: /Kweet
+            pathType: Prefix
+            backend:
+              service:
+                name: kweetservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /Auth
+            pathType: Prefix
+            backend:
+              service:
+                name: authservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /Profile
+            pathType: Prefix
+            backend:
+              service:
+                name: profileservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /Like
+            pathType: Prefix
+            backend:
+              service:
+                name: kweetservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /Reaction
+            pathType: Prefix
+            backend:
+              service:
+                name: kweetservice-clusterip-srv
+                port:
+                  number: 80
+          

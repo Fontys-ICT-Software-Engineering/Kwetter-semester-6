@@ -37,14 +37,13 @@ namespace KweetReadService.Controllers
         }
 
         [HttpGet("Kweets")]
-        [Authorize]
         public async Task<ActionResult<List<ReturnKweetDTO>>> GetAllKweetsByUserID()
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            //var identity = HttpContext.User.Identity as ClaimsIdentity;
 
             try
             {
-                List<ReturnKweetDTO> res = await _kweetReadService.GetAllKweets(getUserID(identity));
+                List<ReturnKweetDTO> res = await _kweetReadService.GetAllKweets("string");
                 if (res == null) return NotFound("no kweets found");
                 return Ok(res);
             }

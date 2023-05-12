@@ -9,5 +9,9 @@ namespace KweetReadService.Services.Reaction
 
         public List<GetReactionDTO> GetReactionsByTweet(string kweetId);
 
+        public Task<bool> UpdateReactionKweet();
+
+        public bool DeleteReactionKweet(Guid Id);
+
     }
 }

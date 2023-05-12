@@ -7,7 +7,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "Authentication\AuthService\AuthService.csproj", "{55232FE3-76D2-41C9-B79D-3FAC0CE0394E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetService", "Kweet\KweetService\KweetService.csproj", "{D9D9163A-ABB7-40A6-BB31-46DAA9F68841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetWriteService", "Kweet\KweetWriteService\KweetWriteService.csproj", "{D9D9163A-ABB7-40A6-BB31-46DAA9F68841}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileService", "Profile\ProfileService\ProfileService.csproj", "{0FD9A18A-90B0-437C-9A79-4CF8AFC69A36}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetServiceTest", "Kweet\K
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FollowService", "Follow\FollowService\FollowService.csproj", "{7151B44E-E5B4-4BC3-9960-9DCE2215B633}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KweetReadService", "Kweet\KweetReadService\KweetReadService.csproj", "{84DF8521-85C0-44A7-8F2D-79A07B004FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetReadService", "Kweet\KweetReadService\KweetReadService.csproj", "{84DF8521-85C0-44A7-8F2D-79A07B004FFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
       - name: authservice
-        image: authservice
-        imagePullPolicy: Never
+        image: fendamear/authservice:latest
         resources:
           limits:
             memory: 512Mi

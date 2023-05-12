@@ -22,7 +22,14 @@ namespace KweetReadService.Services.Reaction
         {
             try
             {
-                ReactionKweetModel reaction = new ReactionKweetModel(dto.KweetId, dto.UserId, dto.Message);
+                ReactionKweetModel reaction = new ReactionKweetModel
+                {
+                    Id = dto.Id.ToString(),
+                    KweetId = dto.KweetId,
+                    UserId = dto.UserId,
+                    Message = dto.Message,
+                    DateSend = dto.Created
+                };
 
                 await _reactionsRepository.InsertOneAsync(reaction);
                 return true;
@@ -31,6 +38,20 @@ namespace KweetReadService.Services.Reaction
             {
                 throw;
             }
+        }
+
+        public bool DeleteReactionKweet(Guid Id)
+        {
+            try
+            {
+                _reactionsRepository.DeleteByIdAsync(Id.ToString());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
         }
 
         public List<GetReactionDTO> GetReactionsByTweet(string kweetId)
@@ -42,16 +63,16 @@ namespace KweetReadService.Services.Reaction
                 //hier where voor performance, met where laad hij niet de hele dataset in?
                 IEnumerable<ReactionKweetModel> kweets = _reactionsRepository.FilterBy(x => x.KweetId == kweetId);
 
-                foreach (ReactionKweetModel kweet in kweets)
+                foreach (ReactionKweetModel reactionKweet in kweets)
                 {
                     Dtos.Add(
                         new GetReactionDTO
                         {
-                            Id = kweet.Id,
-                            KweetId = kweet.KweetId,
-                            UserId = kweet.UserId,
-                            Message = kweet.Message,
-                            DateSend = kweet.DateSend
+                            Id = reactionKweet.Id,
+                            KweetId = reactionKweet.KweetId,
+                            UserId = reactionKweet.UserId,
+                            Message = reactionKweet.Message,
+                            DateSend = reactionKweet.DateSend
                         }
                     );
                 }
@@ -62,6 +83,11 @@ namespace KweetReadService.Services.Reaction
             {
                 return Dtos;
             }
+        }
+
+        public Task<bool> UpdateReactionKweet()
+        {
+            throw new NotImplementedException();
         }
     }
 }

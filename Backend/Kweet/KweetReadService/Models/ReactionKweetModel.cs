@@ -7,8 +7,6 @@ namespace KweetReadService.Models
     [BsonCollection("Reactions")]
     public class ReactionKweetModel : Document
     {
-        public Guid Id { get; set; }
-
         public string KweetId { get; set; }
 
         public string UserId { get; set; }
@@ -21,7 +19,6 @@ namespace KweetReadService.Models
 
         public ReactionKweetModel(string kweetId, string userId, string message)
         {
-            Id = Guid.NewGuid();
             KweetId = kweetId;
             UserId = userId;
             Message = message;
