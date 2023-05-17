@@ -56,7 +56,7 @@ jobs:
   docker:
     needs: 
      - test
-    name: Build and push Docker images
+    name: Build and push Docker images to docker hub
     environment:
       name: docker
     runs-on: ubuntu-20.04
