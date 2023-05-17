@@ -56,7 +56,7 @@ jobs:
   docker:
     needs: 
      - test
-    name: Build and push Docker images
+    name: Build and push Docker images to docker hub
     environment:
       name: docker
     runs-on: ubuntu-20.04
@@ -67,7 +67,7 @@ jobs:
     - name: Build the docker image
       run: |
         echo "Building KweetService docker image"
-        docker build -t ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest -f ./kweet/KweetWriteService/Dockerfile .
+        docker build -t ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest -f ./Kweet/KweetWriteService/Dockerfile .
     - name: Publish to Docker Hub
       uses: docker/build-push-action@v1
       with:
