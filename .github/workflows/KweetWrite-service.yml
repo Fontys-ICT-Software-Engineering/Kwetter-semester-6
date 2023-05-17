@@ -70,9 +70,9 @@ jobs:
         cd ./Kweet/KweetWriteService
         docker build -t ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest .
     - name: Publish to Docker Hub
-      uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v2
       with:
-        username: $ {{ secrets.DOCKER_USERNAME}}
+        username: $ {{ secrets.DOCKER_EMAIL}}
         password: $ {{ secrets.DOCKER_PASSWORD}}
         repository: ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}
         tags: latest
