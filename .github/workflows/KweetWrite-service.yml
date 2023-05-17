@@ -52,3 +52,23 @@ jobs:
     # Tests the code
     - name: Build
       run: dotnet test ./Kweet/KweetWriteServiceTest
+      
+  docker:
+    needs: 
+     - test
+    name: Build and push Docker images
+    environment:
+      name: docker
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Build the docker image
+      run: |
+        echo "Building KweetService docker image"
+        docker build -t ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest -f ./kweet/KweetWriteService/Dockerfile .
+
+  
+      
+  
