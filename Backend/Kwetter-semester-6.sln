@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetWriteService", "Kweet\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileService", "Profile\ProfileService\ProfileService.csproj", "{0FD9A18A-90B0-437C-9A79-4CF8AFC69A36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetServiceTest", "Kweet\KweetServiceTest\KweetServiceTest.csproj", "{FED7E069-0297-4E98-9131-FDB868A8075B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetWriteServiceTest", "Kweet\KweetServiceTest\KweetWriteServiceTest.csproj", "{FED7E069-0297-4E98-9131-FDB868A8075B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FollowService", "Follow\FollowService\FollowService.csproj", "{7151B44E-E5B4-4BC3-9960-9DCE2215B633}"
 EndProject
