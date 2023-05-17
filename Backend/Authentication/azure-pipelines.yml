@@ -1,0 +1,47 @@
+trigger:
+- main
+
+variables:
+  solution: '**/*.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  VSTS_ARM_REST_IGNORE_SSL_ERRORS: true
+
+
+stages:
+- stage: RBT
+  jobs:
+  - job: Build
+
+    pool:
+      name: Azure Pipelines
+
+    steps:
+    - task: UseDotNet@2
+      name: DotNETVersion
+      inputs:
+        packageType: 'sdk'
+        version: '7.x'
+        
+    - task: DotNetCoreCLI@2
+      name: Restore
+      inputs:
+        command: 'restore'
+        projects: '$(solution)'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      name: Build
+      inputs:
+        command: 'build'
+        projects: '$(solution)'
+        arguments: '--configuration $(buildConfiguration)'
+
+  - job: Test
+    steps:
+    - task: DotNetCoreCLI@2
+      name: Test
+      inputs:
+        command: 'test'
+        projects: '$(solution)'
+        testRunTitle: 'Test'

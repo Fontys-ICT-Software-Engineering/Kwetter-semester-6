@@ -44,7 +44,6 @@ const Comment = (props) => {
             {date.getDate()} {date.toLocaleString("en", { month: "long" })} at{" "}
             {date.getUTCHours()}:{date.getUTCMinutes()}
             {menu(props.post_id)}
-
           </p>
           <p>{props.caption}</p>
         </div>
