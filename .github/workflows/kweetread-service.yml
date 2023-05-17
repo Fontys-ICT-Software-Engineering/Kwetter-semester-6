@@ -1,0 +1,59 @@
+
+name: kweetreadservice
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - Backend/Kweet/KweetReadService/**
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - Backend/Kweet/KweetReadService/**
+
+defaults:
+  run:
+    working-directory: src
+
+jobs:
+
+  build:
+    name: Build
+    # To prevent bugs in case latest has breaking changes
+    runs-on: ubuntu-20.04
+    steps:
+    # Checks out the code
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Sets up the .NET SDK
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '5.0.x'
+    
+    # Installs the dependencies
+    - name: Install dependencies
+      run: dotnet restore ./Kweet/KweetReadService
+
+    # Builds the code
+    - name: Build
+      run: dotnet build --no-restore ./Kweet/KweetReadService
+  
+#   test:
+#     needs: build
+#     name: Test
+#     # To prevent bugs in case latest has breaking changes
+#     runs-on: ubuntu-20.04
+#     steps:
+#     # Checks out the code
+#     - name: Checkout
+#       uses: actions/checkout@v2
+
+#     # Tests the code
+#     - name: Build
+#       run: dotnet test ./Services/KweetService/Tests
+
+
+
+
