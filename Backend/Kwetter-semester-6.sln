@@ -3,19 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{1E96A264-9EDC-4DB3-A4BF-B0D34A03FAAA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService", "Authentication\AuthService\AuthService.csproj", "{55232FE3-76D2-41C9-B79D-3FAC0CE0394E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetWriteService", "Kweet\KweetWriteService\KweetWriteService.csproj", "{D9D9163A-ABB7-40A6-BB31-46DAA9F68841}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileService", "Profile\ProfileService\ProfileService.csproj", "{0FD9A18A-90B0-437C-9A79-4CF8AFC69A36}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetWriteServiceTest", "Kweet\KweetServiceTest\KweetWriteServiceTest.csproj", "{FED7E069-0297-4E98-9131-FDB868A8075B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FollowService", "Follow\FollowService\FollowService.csproj", "{7151B44E-E5B4-4BC3-9960-9DCE2215B633}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetReadService", "Kweet\KweetReadService\KweetReadService.csproj", "{84DF8521-85C0-44A7-8F2D-79A07B004FFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KweetWriteServiceTest", "Kweet\KweetWriteServiceTest\KweetWriteServiceTest.csproj", "{73D05590-E24E-46FB-B88A-9115BEEB0306}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E96A264-9EDC-4DB3-A4BF-B0D34A03FAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E96A264-9EDC-4DB3-A4BF-B0D34A03FAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E96A264-9EDC-4DB3-A4BF-B0D34A03FAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E96A264-9EDC-4DB3-A4BF-B0D34A03FAAA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55232FE3-76D2-41C9-B79D-3FAC0CE0394E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55232FE3-76D2-41C9-B79D-3FAC0CE0394E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55232FE3-76D2-41C9-B79D-3FAC0CE0394E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,10 +33,6 @@ Global
 		{0FD9A18A-90B0-437C-9A79-4CF8AFC69A36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FD9A18A-90B0-437C-9A79-4CF8AFC69A36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FD9A18A-90B0-437C-9A79-4CF8AFC69A36}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FED7E069-0297-4E98-9131-FDB868A8075B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FED7E069-0297-4E98-9131-FDB868A8075B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FED7E069-0297-4E98-9131-FDB868A8075B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FED7E069-0297-4E98-9131-FDB868A8075B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7151B44E-E5B4-4BC3-9960-9DCE2215B633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7151B44E-E5B4-4BC3-9960-9DCE2215B633}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7151B44E-E5B4-4BC3-9960-9DCE2215B633}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +41,10 @@ Global
 		{84DF8521-85C0-44A7-8F2D-79A07B004FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84DF8521-85C0-44A7-8F2D-79A07B004FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84DF8521-85C0-44A7-8F2D-79A07B004FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73D05590-E24E-46FB-B88A-9115BEEB0306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D05590-E24E-46FB-B88A-9115BEEB0306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D05590-E24E-46FB-B88A-9115BEEB0306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D05590-E24E-46FB-B88A-9115BEEB0306}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
