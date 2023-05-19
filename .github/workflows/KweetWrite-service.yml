@@ -92,7 +92,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Fontys-ICT-Software-Engineering_Kwetter-semester-6" /o:"fontys-ict-software-engineering" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build --no-restore ./Kweet/KweetWriteService
+          dotnet build ./Kweet/KweetWriteService
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  
 
   # docker:
