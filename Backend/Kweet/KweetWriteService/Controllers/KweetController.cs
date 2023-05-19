@@ -42,7 +42,7 @@ namespace Kweet.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             try
             {
-                List<ReturnKweetDTO> response = await _kweetService.GetAllKweets(getUserID(identity));
+                List<ReturnKweetDTO> response = await _kweetService.GetAllKweets(GetUserID(identity));
                 if (response == null) return NotFound();
                 return Ok(response);
             }
