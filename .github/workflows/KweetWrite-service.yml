@@ -69,20 +69,39 @@ jobs:
         username: fendamear
         password: Nickboy2023
     
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-      with:
-        images: $ {{ secrets.KWEETWRITE_SERVICE_REGISTRY }}
-    
-    - name: Build and push Docker image
-      uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-      with: 
-        context: Backend/Kweet/KweetWriteService/
-        file: Dockerfile
-        push: true
-        tags: latest
-
+    - name: build and push docker image
+      run: |
+         cd ./Kweet/KweetWriteService
+         docker build -t fendamear/KweetWriteService:latest .
+         docker push fendamear/KweetWriteService:latest 
+        # docker:
+        #   # needs: 
+        #   #  - test
+        #   name: Build and push Docker images to docker hub
+        #   runs-on: ubuntu-20.04
+        #   steps:
+        #   - name: Checkout
+        #     uses: actions/checkout@v3
+          
+        #   - name: login to docker hub
+        #     uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+        #     with:
+        #       username: fendamear
+        #       password: Nickboy2023
+          
+        #   - name: Extract metadata (tags, labels) for Docker
+        #     id: meta
+        #     uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        #     with:
+        #       images: $ {{ secrets.KWEETWRITE_SERVICE_REGISTRY }}
+          
+        #   - name: Build and push Docker image
+        #     uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        #     with: 
+        #       context: Backend/Kweet/KweetWriteService/
+        #       file: Dockerfile
+        #       push: true
+        #       tags: latest
   
       
   
