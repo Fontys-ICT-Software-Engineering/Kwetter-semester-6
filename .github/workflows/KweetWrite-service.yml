@@ -72,8 +72,8 @@ jobs:
     - name: build and push docker image
       run: |
          cd ./Kweet/KweetWriteService
-         docker build -t fendamear/KweetWriteService:latest .
-         docker push fendamear/KweetWriteService:latest 
+         docker build -t fendamear/kweetwriteservice:latest .
+         docker push fendamear/kweetwriteservice:latest 
         # docker:
         #   # needs: 
         #   #  - test
