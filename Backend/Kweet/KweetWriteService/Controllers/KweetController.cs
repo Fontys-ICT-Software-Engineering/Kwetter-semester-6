@@ -34,7 +34,6 @@ namespace Kweet.Controllers
             return "this works!";
         }
 
-
         [HttpGet("/[controller]/all")]
         [Authorize]
         public async Task<ActionResult<List<ReturnKweetDTO>>> getAllKweets()

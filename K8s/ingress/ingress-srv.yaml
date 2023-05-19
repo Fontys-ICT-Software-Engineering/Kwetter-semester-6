@@ -10,11 +10,18 @@ spec:
     - host: kwetter.com
       http:
         paths:
-          - path: /Kweet
+          - path: /KweetWrite
             pathType: Prefix
             backend:
               service:
-                name: kweetservice-clusterip-srv
+                name: kweetwriteservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /KweetRead
+            pathType: Prefix
+            backend:
+              service:
+                name: kweetreadservice-clusterip-srv
                 port:
                   number: 80
           - path: /Auth
