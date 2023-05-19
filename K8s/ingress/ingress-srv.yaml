@@ -38,4 +38,18 @@ spec:
                 name: profileservice-clusterip-srv
                 port:
                   number: 80
+          - path: /Like
+            pathType: Prefix
+            backend:
+              service:
+                name: kweetwriteservice-clusterip-srv
+                port:
+                  number: 80
+          - path: /Reaction
+            pathType: Prefix
+            backend:
+              service:
+                name: kweetwriteservice-clusterip-srv
+                port:
+                  number: 80
           

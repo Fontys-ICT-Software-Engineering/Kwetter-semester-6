@@ -159,7 +159,7 @@ namespace KweetReadService.Services.Kweet
             }
         }
 
-        private async Task<bool> IsLikedByUser(string UserID, string KweetID)
+        private async Task<bool> IsLikedByUser(string KweetID, string UserID)
         {
             try
             {

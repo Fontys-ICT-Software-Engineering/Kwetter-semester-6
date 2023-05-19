@@ -53,7 +53,7 @@ namespace Kweet.Controllers
         }
 
         [HttpPost("/[controller]/post")]
-        public async Task<ActionResult<PostKweetDTO>> postKweet(PostKweetDTO dto)
+        public async Task<ActionResult<PostKweetDTO>> PostKweet(PostKweetDTO dto)
         {
             PostKweetDTO response = new PostKweetDTO(); 
 
