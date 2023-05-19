@@ -15,13 +15,13 @@ namespace Kweet.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class KweetController : ControllerBase
+    public class KweetWriteController : ControllerBase
     {
         private readonly IKweetService _kweetService;
         private readonly IPublishEndpoint _publishEndpoint;
         private readonly IRequestClient<WriteKweetDTO> _client;
 
-        public KweetController(IKweetService kweetService, IPublishEndpoint endpoint, IRequestClient<WriteKweetDTO> client)
+        public KweetWriteController(IKweetService kweetService, IPublishEndpoint endpoint, IRequestClient<WriteKweetDTO> client)
         {
             _kweetService = kweetService;
             _publishEndpoint = endpoint;
@@ -35,7 +35,7 @@ namespace Kweet.Controllers
         }
 
 
-        [HttpGet(Name = "GetAllKweets")]
+        [HttpGet("/[controller]/all")]
         [Authorize]
         public async Task<ActionResult<List<ReturnKweetDTO>>> getAllKweets()
         {
@@ -52,7 +52,7 @@ namespace Kweet.Controllers
             }
         }
 
-        [HttpPost(Name = "PostKweet")]
+        [HttpPost("/[controller]/post")]
         public async Task<ActionResult<PostKweetDTO>> postKweet(PostKweetDTO dto)
         {
             PostKweetDTO response = new PostKweetDTO(); 
@@ -70,7 +70,7 @@ namespace Kweet.Controllers
 
         }
 
-        [HttpDelete(Name = "DeleteKweet")]
+        [HttpDelete("/[controller]/delete")]
         public ActionResult<string> DeleteKweet(Guid id)
         {
             try
@@ -99,7 +99,7 @@ namespace Kweet.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("/[controller]/update")]
         public async Task<ActionResult<ReturnUpdateKweetDTO>> UpdateKweet(PostUpdateKweetDTO dto)
         {
             ReturnUpdateKweetDTO response = new();
@@ -116,7 +116,7 @@ namespace Kweet.Controllers
             }
         }
 
-        [HttpPost("/rabbitMq")]
+        [HttpPost("/[controller]/rabbitmq")]
         public async Task<ActionResult<PostKweetDTO>> PostRabbitMq(WriteKweetDTO dto)
         {
             try
