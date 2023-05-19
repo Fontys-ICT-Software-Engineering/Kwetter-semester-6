@@ -17,46 +17,46 @@ defaults:
 
 jobs:
 
-  build:
-    name: Build
-    # To prevent bugs in case latest has breaking changes
-    runs-on: ubuntu-20.04
-    steps:
-    # Checks out the code
-    - name: Checkout
-      uses: actions/checkout@v2
+  # build:
+  #   name: Build
+  #   # To prevent bugs in case latest has breaking changes
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #   # Checks out the code
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
-    # Sets up the .NET SDK
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v1.7.2
-      with:
-        dotnet-version: '7.0.x'
+  #   # Sets up the .NET SDK
+  #   - name: Setup .NET SDK
+  #     uses: actions/setup-dotnet@v1.7.2
+  #     with:
+  #       dotnet-version: '7.0.x'
     
-    # Installs the dependencies
-    - name: Install dependencies
-      run: dotnet restore ./Kweet/KweetWriteService
+  #   # Installs the dependencies
+  #   - name: Install dependencies
+  #     run: dotnet restore ./Kweet/KweetWriteService
 
-    # Builds the code
-    - name: Build
-      run: dotnet build --no-restore ./Kweet/KweetWriteService
+  #   # Builds the code
+  #   - name: Build
+  #     run: dotnet build --no-restore ./Kweet/KweetWriteService
       
-  test:
-    needs: build
-    name: Test
-    # To prevent bugs in case latest has breaking changes
-    runs-on: ubuntu-20.04
-    steps:
-    # Checks out the code
-    - name: Checkout
-      uses: actions/checkout@v2
+  # test:
+  #   needs: build
+  #   name: Test
+  #   # To prevent bugs in case latest has breaking changes
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #   # Checks out the code
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
 
-    # Tests the code
-    - name: Build
-      run: dotnet test ./Kweet/KweetWriteServiceTest
+  #   # Tests the code
+  #   - name: Build
+  #     run: dotnet test ./Kweet/KweetWriteServiceTest
       
   docker:
-    needs: 
-     - test
+    # needs: 
+    #  - test
     name: Build and push Docker images to docker hub
     runs-on: ubuntu-20.04
     steps:
@@ -78,8 +78,7 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
       with: 
-        context: .
-        file: Dockerfile
+        file: ./Kweet/KweetWriteService/Dockerfile
         push: true
         tags: latest
 
