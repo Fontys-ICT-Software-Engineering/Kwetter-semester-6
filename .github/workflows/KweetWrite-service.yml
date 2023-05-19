@@ -66,14 +66,14 @@ jobs:
     - name: login to docker hub
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
       with:
-        username: fendamear
-        password: Nickboy2023
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD}}
     
     - name: build and push docker image
       run: |
          cd ./Kweet/KweetWriteService
-         docker build -t fendamear/kweetwriteservice:latest .
-         docker push fendamear/kweetwriteservice:latest 
+         docker build -t ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest .
+         docker push ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest 
         # docker:
         #   # needs: 
         #   #  - test
