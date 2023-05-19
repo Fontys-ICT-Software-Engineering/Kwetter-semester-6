@@ -58,5 +58,23 @@ CQRS
 helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-basic --set controller.replicaCount=1 --set controller.nodSelector."beta\.kubernetes\.io/os="=linux --set controller.service.externalTrafficPolicy=Local
 
 
-$ docker run -d --hostname localhost --name test-naam -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
+docker run -d --hostname localhost --name test-naam -e RABBITMQ_DEFAULT_USER=guest -e RABBITMQ_DEFAULT_PASS=guest rabbitmq:3-management
+
+date
+caption
+
+C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\KweetWriteServiceTest\UnitTest1.cs
+
+[
+    {
+        "id": "299efee6-3aa7-461d-bb0e-8446fd1d9dcc",
+        "message": "string",
+        "user": null,
+        "date": "0001-01-01T00:00:00",
+        "isEdited": false,
+        "likes": 0,
+        "liked": false
+    }
+]
+
 

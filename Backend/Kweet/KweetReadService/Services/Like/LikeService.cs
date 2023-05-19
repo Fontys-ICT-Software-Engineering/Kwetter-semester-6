@@ -46,10 +46,16 @@ namespace KweetReadService.Services.Like
                 return false;
                 throw;
             }
-            
+           
+        }
+        public Task<long> ReturnLikes(string kweetId)
+        {
+            return _likeRepository.ReturnLikes(x => x.KweetID == kweetId);
+        }
 
-
-
+        public Task<bool> IsLikedByUser(string kweetId, string UserId)
+        {
+            return _likeRepository.IsLikeByUser(x => x.KweetID == kweetId && x.UserID == UserId);
         }
 
     }

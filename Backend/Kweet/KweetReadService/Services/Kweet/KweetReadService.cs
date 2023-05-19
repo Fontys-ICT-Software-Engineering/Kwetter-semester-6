@@ -2,6 +2,8 @@
 using KweetReadService.Data.Kweet;
 using KweetReadService.DTOs.KweetDTO;
 using KweetReadService.Models;
+using KweetReadService.Services.Like;
+using KweetReadService.Services.Reaction;
 using SharedClasses.Kweet;
 
 namespace KweetReadService.Services.Kweet
@@ -10,11 +12,16 @@ namespace KweetReadService.Services.Kweet
     {
         private readonly IKweetMongoRepository<KweetModel> _kweetRepository;
         private readonly IMapper _mapper;
+        private readonly IReactionService _reactionService;
+        private readonly Ilikeservice _likeService;
 
-        public KweetReadService(IKweetMongoRepository<KweetModel> mongoRepository, IMapper mapper)
+
+        public KweetReadService(IKweetMongoRepository<KweetModel> mongoRepository, IMapper mapper, Ilikeservice likeservice, IReactionService reactionService)
         {
             _kweetRepository = mongoRepository;
             _mapper = mapper;
+            _likeService = likeservice;
+            _reactionService = reactionService;
         }
 
         public async Task<List<ReturnKweetDTO>> GetAllKweets(string userId)
@@ -25,16 +32,22 @@ namespace KweetReadService.Services.Kweet
 
                 List<ReturnKweetDTO> response = new List<ReturnKweetDTO>();
 
+                
                 foreach (KweetModel kweet in kweets) 
                 {
                     response.Add(
-                        new ReturnKweetDTO {
-                        Id = kweet.Id,
-                        Message = kweet.Message,
+                        new ReturnKweetDTO
+                        {
+                            Id = kweet.Id,
+                            Message = kweet.Message,
+                            User = kweet.User,
+                            Date = kweet.Date,
+                            IsEdited = kweet.IsEdited,
+                            Liked = await IsLikedByUser(kweet.Id, userId),
+                            Likes = (int)await GetLikesByKweet(kweet.Id)
                         }
-                    );                
+                    );   
                 }
-
                 return response;
             }
             catch (Exception ex)
@@ -133,32 +146,30 @@ namespace KweetReadService.Services.Kweet
             }
         }
 
-        private async Task<int> getLikesByKweet(string KweetID)
+        private async Task<long> GetLikesByKweet(string kweetID)
         {
-            //try
-            //{
-            //    return await _dataContext.Likes.Where(i => i.KweetID == KweetID).CountAsync();
-            //}
-            //catch (Exception ex)
-            //{
+            try
+            {
+                return await _likeService.ReturnLikes(kweetID);
+            }
+            catch (Exception ex)
+            {
 
-            //    throw;
-            //}
-            return 0;
+                throw;
+            }
         }
 
-        private async Task<bool> isLikedByUser(string UserID, string KweetID)
+        private async Task<bool> IsLikedByUser(string UserID, string KweetID)
         {
-            //try
-            //{
-            //    if (await _dataContext.Likes.AnyAsync(k => k.UserID == UserID && k.KweetID == KweetID)) return true;
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw;
-            //}
-            //return false;
-            return false;
+            try
+            {
+                return await _likeService.IsLikedByUser(KweetID, UserID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

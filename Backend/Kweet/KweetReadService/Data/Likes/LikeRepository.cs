@@ -51,6 +51,15 @@ namespace KweetReadService.Data.Likes
             return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
         }
 
+        public virtual Task<long> ReturnLikes(Expression<Func<TDocument, bool>> filterExpression)
+        {
+            return _collection.CountDocumentsAsync(filterExpression);
+        }
+
+        public virtual Task<bool> IsLikeByUser(Expression<Func<TDocument, bool>> filterExpression)
+        {
+            return _collection.Find(filterExpression).AnyAsync();
+        }
 
     }
 }

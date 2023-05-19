@@ -18,5 +18,9 @@ namespace KweetReadService.Data.Likes
             Expression<Func<TDocument, bool>> filterExpression,
             Expression<Func<TDocument, TProjected>> projectionExpression);
 
+        Task<long> ReturnLikes(Expression<Func<TDocument, bool>> filterExpression);
+
+        Task<bool> IsLikeByUser(Expression<Func<TDocument, bool>> filterExpression);
+
     }
 }

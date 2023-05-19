@@ -7,5 +7,8 @@ namespace KweetReadService.Services.Like
     {
         public Task<bool> LikeKweet(WriteLikeDTO dto);
 
+        public Task<long> ReturnLikes(string kweetId);
+
+        public Task<bool> IsLikedByUser(string kweetId, string UserId);
     }
 }

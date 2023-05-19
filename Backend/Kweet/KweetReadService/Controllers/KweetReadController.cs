@@ -1,7 +1,9 @@
 using KweetReadService.Data.MongoDB;
 using KweetReadService.DTOs.KweetDTO;
+using KweetReadService.DTOs.ReactionDTO;
 using KweetReadService.Models;
 using KweetReadService.Services.Kweet;
+using KweetReadService.Services.Reaction;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SharedClasses.Kweet;
@@ -15,28 +17,15 @@ namespace KweetReadService.Controllers
     public class KweetReadController : ControllerBase
     {
         private readonly IKweetReadService _kweetReadService;
+        private readonly IReactionService _reactionService;
 
-        public KweetReadController(IKweetReadService kweetReadService)
+        public KweetReadController(IKweetReadService kweetReadService, IReactionService reactionService)
         {
             _kweetReadService = kweetReadService;
+            _reactionService = reactionService;
         }
 
-        [HttpPost("PostKweet")]
-        public async Task PostKweet(PostKweetDTO dto)
-        {
-            //try
-            //{
-            //    await _kweetReadService.PostKweet(dto);
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    throw;
-            //}
-
-        }
-
-        [HttpGet("Kweets")]
+        [HttpGet("AllKweets")]
         public async Task<ActionResult<List<ReturnKweetDTO>>> GetAllKweetsByUserID()
         {
             //var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -55,7 +44,6 @@ namespace KweetReadService.Controllers
 
         private string getUserID(ClaimsIdentity identity)
         {
-            string auth = "Authorization";
             string Id = string.Empty;
 
             if (identity != null)
@@ -72,5 +60,29 @@ namespace KweetReadService.Controllers
             }
             return Id;
         }
+
+        [HttpGet("ReactionsByKweet")]
+        public ActionResult<List<GetReactionDTO>> GetAllReactionsByKweet(string kweetId)
+        {
+            try
+            {
+                List<GetReactionDTO> response = _reactionService.GetReactionsByTweet(kweetId);
+                if (response == null) return NotFound("no Reactions Found");
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+
+        }
+
+
+
+
+
+
     }
 }
