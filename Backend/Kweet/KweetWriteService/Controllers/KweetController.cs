@@ -38,6 +38,7 @@ namespace Kweet.Controllers
         [Authorize]
         public async Task<ActionResult<List<ReturnKweetDTO>>> getAllKweets()
         {
+            //test
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             try
             {
