@@ -42,7 +42,7 @@ namespace Kweet.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             try
             {
-                List<ReturnKweetDTO> response = await _kweetService.getAllKweets(getUserID(identity));
+                List<ReturnKweetDTO> response = await _kweetService.GetAllKweets(getUserID(identity));
                 if (response == null) return NotFound();
                 return Ok(response);
             }
@@ -59,7 +59,7 @@ namespace Kweet.Controllers
 
             try
             {
-                response = await _kweetService.postKweet(dto);
+                response = await _kweetService.PostKweet(dto);
             }
             catch (Exception ex)
             {
@@ -71,11 +71,11 @@ namespace Kweet.Controllers
         }
 
         [HttpDelete(Name = "DeleteKweet")]
-        public async Task<ActionResult<string>> deleteKweet(Guid id)
+        public ActionResult<string> DeleteKweet(Guid id)
         {
             try
             {
-                if (!_kweetService.deleteKweet(id).Result) return BadRequest();
+                if (!_kweetService.DeleteKweet(id).Result) return BadRequest();
                 return Ok(id);
             }
             catch (Exception)
@@ -89,7 +89,7 @@ namespace Kweet.Controllers
         {
             try
             {
-                ReturnKweetDTO response = await _kweetService.getKweetById(id);
+                ReturnKweetDTO response = await _kweetService.GetKweetById(id);
                 if (response == null) return NotFound();
                 return Ok(response);
             }
@@ -130,14 +130,10 @@ namespace Kweet.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
-            return Ok(dto);
-
         }
 
-        private string getUserID(ClaimsIdentity identity)
+        private static string GetUserID(ClaimsIdentity identity)
         {
-            string auth = "Authorization";
             string Id = string.Empty;
 
             if (identity != null)

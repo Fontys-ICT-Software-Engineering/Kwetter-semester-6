@@ -35,7 +35,7 @@ namespace Kweet.Services.Kweet
             _dataContext = context;
         }
 
-        public async Task<List<ReturnKweetDTO>> getAllKweets(string userId)
+        public async Task<List<ReturnKweetDTO>> GetAllKweets(string userId)
         {
             List<ReturnKweetDTO> response = new List<ReturnKweetDTO>();
 
@@ -60,7 +60,7 @@ namespace Kweet.Services.Kweet
                 }
                 response = response.OrderByDescending(d => d.Date).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -95,13 +95,13 @@ namespace Kweet.Services.Kweet
             {
                 throw new Exception("Kweet ID not found");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
         }
 
-        public async Task<PostKweetDTO> postKweet(PostKweetDTO kweetDTO)
+        public async Task<PostKweetDTO> PostKweet(PostKweetDTO kweetDTO)
         {
             KweetModel post = new KweetModel(kweetDTO.Message, kweetDTO.User);
 
@@ -119,15 +119,14 @@ namespace Kweet.Services.Kweet
                     throw new Exception("Failed To Synchronize databases");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 throw;
             }
             return kweetDTO;
         }
 
-        public async Task<bool> deleteKweet(Guid id)
+        public async Task<bool> DeleteKweet(Guid id)
         {
             try
             {
@@ -154,7 +153,7 @@ namespace Kweet.Services.Kweet
 
         }
 
-        public async Task<ReturnKweetDTO> getKweetById(Guid id)
+        public async Task<ReturnKweetDTO> GetKweetById(Guid id)
         {
             try
             {
@@ -164,7 +163,7 @@ namespace Kweet.Services.Kweet
 
                 return new ReturnKweetDTO(res.Id, res.Message, res.User, res.Date, res.IsEdited, likes, liked);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -176,9 +175,8 @@ namespace Kweet.Services.Kweet
             {
                 return await _dataContext.Likes.Where(i => i.KweetID == KweetID).CountAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
                 throw;
             }
         }
@@ -189,7 +187,7 @@ namespace Kweet.Services.Kweet
             {
                 if(await _dataContext.Likes.AnyAsync(k => k.UserID == UserID && k.KweetID == KweetID)) return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

@@ -6,7 +6,7 @@ namespace KweetWriteService.Services.Reaction
     {
         public Task<bool> CreateReactionKweet(PostReactionKweetDTO dto);
 
-        public  List<GetReactionDTO> GetReactionsByTweet(string kweetId);
+        public Task<List<GetReactionDTO>> GetReactionsByTweet(string kweetId);
 
         public Task<bool> DeleteReactionKweet(Guid Id);
 

@@ -14,14 +14,15 @@ namespace Kweet.Models
         public string User { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }   
+        public DateTime Date { get; set; }
 
+        [Required]
         public bool IsEdited { get; set; }
 
 
         public KweetModel() 
         { 
-        
+            
         }
 
         public KweetModel(string message, string user)

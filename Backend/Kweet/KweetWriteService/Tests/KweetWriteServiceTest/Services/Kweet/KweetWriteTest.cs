@@ -40,7 +40,7 @@ namespace Kweet.Services.Kweet.Tests
             var userId = "user123";
 
             // Act
-            var result = await _kweetService.getAllKweets(userId);
+            var result = await _kweetService.GetAllKweets(userId);
 
             // Assert
             Assert.IsNotNull(result);

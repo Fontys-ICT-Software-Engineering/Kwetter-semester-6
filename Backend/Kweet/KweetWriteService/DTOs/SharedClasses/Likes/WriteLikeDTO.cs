@@ -4,11 +4,11 @@
     {
 
         public Guid Id { get; set; }
-        public string KweetId { get; set; } 
+        public string KweetId { get; set; } = string.Empty; 
 
-        public string UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
-        public LikeStatus status { get; set; } 
+        public LikeStatus Status { get; set; } 
 
     }
 }

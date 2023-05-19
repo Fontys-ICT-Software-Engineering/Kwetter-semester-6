@@ -3,6 +3,7 @@ using Kweet.Data;
 using KweetWriteService.DTOs.ReactionDTO;
 using KweetWriteService.Models;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using SharedClasses;
 using SharedClasses.Reaction;
 using static MassTransit.Logging.DiagnosticHeaders.Messaging;
@@ -76,14 +77,14 @@ namespace KweetWriteService.Services.Reaction
             }
         }
 
-        public List<GetReactionDTO> GetReactionsByTweet(string kweetId)
+        public async Task<List<GetReactionDTO>> GetReactionsByTweet(string kweetId)
         {
             List<GetReactionDTO> Dtos = new();
 
             try
             {
                 //hier where voor performance, met where laad hij niet de hele dataset in?
-                var kweets = _dataContext.Reactions.Where(i => i.KweetId == kweetId);
+                var kweets = await _dataContext.Reactions.Where(i => i.KweetId == kweetId).ToListAsync();
 
                 foreach(ReactionKweetModel reaction in kweets) 
                 { 

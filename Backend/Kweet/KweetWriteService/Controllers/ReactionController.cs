@@ -26,7 +26,7 @@ namespace KweetWriteService.Controllers
             var identity = HttpContext.User.Identity as ClaimsIdentity;
             try
             {
-                List<GetReactionDTO> response = _reactionservice.GetReactionsByTweet(kweetID);
+                List<GetReactionDTO> response = await _reactionservice.GetReactionsByTweet(kweetID);
                 if (response == null) return NotFound();
                 return Ok(response);
             }
@@ -64,14 +64,12 @@ namespace KweetWriteService.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                return BadRequest(ex.Message);
             }
         }
 
-        private string getUserID(ClaimsIdentity identity)
+        private static string GetUserID(ClaimsIdentity identity)
         {
-            string auth = "Authorization";
             string Id = string.Empty;
 
             if (identity != null)

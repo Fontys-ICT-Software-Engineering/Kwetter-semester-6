@@ -1,10 +1,12 @@
-﻿namespace KweetWriteService.DTOs.KweetDTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace KweetWriteService.DTOs.KweetDTO
 {
     public class PostKweetDTO
     {
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
-        public string User { get; set; }
-        
+        public string User { get; set; } = string.Empty;
+
     }
 }

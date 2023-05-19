@@ -50,7 +50,7 @@ namespace KweetWriteService.Services.Likes
                 {
                     KweetId = dto.KweetId,
                     UserId = dto.UserId,
-                    status = likeStatus
+                    Status = likeStatus
                 };
 
                 var response = await _client.GetResponse<MassTransitResponse>(rabbit);

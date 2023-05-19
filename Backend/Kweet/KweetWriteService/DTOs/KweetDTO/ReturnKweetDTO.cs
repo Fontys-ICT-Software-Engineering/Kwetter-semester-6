@@ -18,8 +18,6 @@ namespace KweetWriteService.DTOs.KweetDTO
 
         public bool Liked { get; set; }
 
-        public ReturnKweetDTO() { }
-
         public ReturnKweetDTO(Guid id, string message, string user, DateTime time, bool isEdited, int likes, bool liked)
         {
             Id = id;
