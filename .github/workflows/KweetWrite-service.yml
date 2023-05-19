@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - Backend/Kweet/KweetWriteService/**
+      - ../.github/**
   pull_request:
     branches: [ "main" ]
     paths:
@@ -78,7 +79,7 @@ jobs:
       uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
       with: 
         context: .
-        file: ./Kweet/KweetWriteService/Dockerfile
+        file: ../Kweet/KweetWriteService/Dockerfile
         push: true
         tags: latest
 
