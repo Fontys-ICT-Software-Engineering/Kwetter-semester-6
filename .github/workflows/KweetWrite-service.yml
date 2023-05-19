@@ -54,54 +54,66 @@ jobs:
   #   - name: Build
   #     run: dotnet test ./Kweet/KweetWriteServiceTest
       
-  docker:
-    # needs: 
-    #  - test
-    name: Build and push Docker images to docker hub
+  sonarcloud:
+    name: Build and analyze
     runs-on: ubuntu-20.04
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'zulu' # Alternative distribution options are available.
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Fontys-ICT-Software-Engineering_Kwetter-semester-6" /o:"fontys-ict-software-engineering" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build --no-restore ./Kweet/KweetWriteService
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  
+
+  # docker:
+  #   # needs: 
+  #   #  - test
+  #   name: Build and push Docker images to docker hub
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #   - name: Checkout
+  #     uses: actions/checkout@v3
     
-    - name: login to docker hub
-      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD}}
+  #   - name: login to docker hub
+  #     uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+  #     with:
+  #       username: ${{ secrets.DOCKER_USERNAME }}
+  #       password: ${{ secrets.DOCKER_PASSWORD}}
     
-    - name: build and push docker image
-      run: |
-         cd ./Kweet/KweetWriteService
-         docker build -t ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest .
-         docker push ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest 
-        # docker:
-        #   # needs: 
-        #   #  - test
-        #   name: Build and push Docker images to docker hub
-        #   runs-on: ubuntu-20.04
-        #   steps:
-        #   - name: Checkout
-        #     uses: actions/checkout@v3
-          
-        #   - name: login to docker hub
-        #     uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-        #     with:
-        #       username: fendamear
-        #       password: Nickboy2023
-          
-        #   - name: Extract metadata (tags, labels) for Docker
-        #     id: meta
-        #     uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
-        #     with:
-        #       images: $ {{ secrets.KWEETWRITE_SERVICE_REGISTRY }}
-          
-        #   - name: Build and push Docker image
-        #     uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
-        #     with: 
-        #       context: Backend/Kweet/KweetWriteService/
-        #       file: Dockerfile
-        #       push: true
-        #       tags: latest
-  
+  #   - name: build and push docker image
+  #     run: |
+  #        cd ./Kweet/KweetWriteService
+  #        docker build -t ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest .
+  #        docker push ${{ secrets.KWEETWRITE_SERVICE_REGISTRY }}:latest 
       
   
