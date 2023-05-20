@@ -59,8 +59,8 @@ jobs:
     - name: build and push docker image
       run: |
           cd ./Kweet/KweetReadService
-          docker build -t fendamear/kweetreadservice:latest .
-          docker push fendamear/kweetreadservice:latest 
+          docker build -t ${{ KWEETREAD_SERVICE_REGISTRY }}:latest .
+          docker push ${{ KWEETREAD_SERVICE_REGISTRY }}:latest 
 
 #   test:
 #     needs: build
