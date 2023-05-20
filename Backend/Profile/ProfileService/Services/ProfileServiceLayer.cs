@@ -31,12 +31,12 @@ namespace ProfileService.Services
             try
             {
 
-                if (_dataContext.Profiles.Any(u => u.AuthId == dto.AuthId)) throw new Exception();
+                if (_dataContext.Profiles.Any(u => u.AuthId == dto.AuthId)) throw new Exception("User already exists");
 
                 _dataContext.Profiles.Add(profile);
                 await _dataContext.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -54,11 +54,11 @@ namespace ProfileService.Services
                 {
                     result.Add(new ProfileDTO()
                     {
-                        id = profile.Id,
-                        adress = profile.Adress,
-                        bio = profile.Bio,
-                        name = profile.Name,
-                        userName = profile.UserName
+                        Id = profile.Id,
+                        Adress = profile.Adress,
+                        Bio = profile.Bio,
+                        Name = profile.Name,
+                        UserName = profile.UserName
                     });                             
                 }
             }

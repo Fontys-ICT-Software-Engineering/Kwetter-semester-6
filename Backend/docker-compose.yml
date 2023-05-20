@@ -62,7 +62,9 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: /run/secrets/mysql-pwd
+    secrets:
+      - mysql-pwd
   mongodb:
     image: mongo
     container_name: mongoDB
@@ -79,3 +81,8 @@ services:
      - '5672:5672'
             # HTTP management UI
      - '15672:15672'
+
+secrets:
+  mysql-pwd:
+    file: mysql-pwd.txt
+

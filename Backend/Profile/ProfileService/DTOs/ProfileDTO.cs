@@ -2,16 +2,14 @@
 {
     public class ProfileDTO
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
-        public string userName { get; set; }
+        public string UserName { get; set; } = string.Empty;
 
-        public string adress { get; set; }
+        public string Adress { get; set; } = string.Empty;
 
-        public string bio { get; set; }
-
-        //public string profilePicture { get; set; }
+        public string Bio { get; set; } = string.Empty;
     }
 }

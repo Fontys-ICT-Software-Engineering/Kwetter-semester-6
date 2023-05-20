@@ -54,7 +54,7 @@ jobs:
   #     run: dotnet test ./Kweet/KweetWriteServiceTest
       
   sonarcloud:
-    name: Build and analyze
+    name: SonarCloud
     runs-on: windows-latest
     steps:
       - name: Set up JDK 11
