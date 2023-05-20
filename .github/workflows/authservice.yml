@@ -1,0 +1,116 @@
+name: authservice
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - Backend/Authentication/AuthService/**
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - Backend/Authentication/AuthService/**
+
+defaults:
+  run:
+    working-directory: Backend
+
+jobs:
+
+  build:
+    name: Build
+    # To prevent bugs in case latest has breaking changes
+    runs-on: ubuntu-20.04
+    steps:
+    # Checks out the code
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # Sets up the .NET SDK
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        dotnet-version: '7.0.x'
+    
+    # Installs the dependencies
+    - name: Install dependencies
+      run: dotnet restore ./Authentication/AuthService
+
+    # Builds the code
+    - name: Build
+      run: dotnet build --no-restore ./Authentication/AuthService
+      
+  # test:
+  #   needs: build
+  #   name: Test
+  #   # To prevent bugs in case latest has breaking changes
+  #   runs-on: ubuntu-20.04
+  #   steps:
+  #   # Checks out the code
+  #   - name: Checkout
+  #     uses: actions/checkout@v2
+
+  #   # Tests the code
+  #   - name: Build
+  #     run: dotnet test ./Kweet/KweetWriteServiceTest
+      
+  sonarcloud:
+    name: Build and analyze
+    runs-on: windows-latest
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'zulu' # Alternative distribution options are available.
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v3
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Fontys-ICT-Software-Engineering_Kwetter-semester-6" /o:"fontys-ict-software-engineering" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet build ./Authentication/AuthService
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  
+
+  docker:
+    # needs: 
+    #  - test
+    name: Build and push Docker images to docker hub
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: login to docker hub
+      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD}}
+    
+    - name: build and push docker image
+      run: |
+         cd ./Kweet/KweetWriteService
+         docker build -t ${{ secrets.AUTHSERVICE_REGISTRY }}:latest .
+         docker push ${{ secrets.AUTHSERVICE_REGISTRY }}:latest 
