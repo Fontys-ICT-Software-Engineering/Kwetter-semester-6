@@ -52,4 +52,13 @@ spec:
                 name: kweetwriteservice-clusterip-srv
                 port:
                   number: 80
+          - path: /prometheus
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-service
+                port:
+                  number: 8080
+              
+
           
