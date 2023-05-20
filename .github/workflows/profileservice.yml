@@ -1,4 +1,4 @@
-name: kweetWriteservice
+name: profileService
 
 on:
   push:
