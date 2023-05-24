@@ -88,7 +88,6 @@ namespace AuthService.Controllers
             }
         }
 
-
         [HttpGet("/[Controller]/validate", Name = "ValidateUser")]
         [Authorize]
         public async Task<ActionResult<string>> validateUser()
