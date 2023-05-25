@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KweetReadService.Data.Likes;
 using KweetReadService.Data.Reaction;
 using KweetReadService.DTOs.ReactionDTO;
 using KweetReadService.Models;
@@ -52,6 +53,19 @@ namespace KweetReadService.Services.Reaction
                 return false;
             }
 
+        }
+
+        public Task GDPRDelete(List<string> ids, string userId)
+        {
+            return Task.Run(() =>
+            {
+                foreach (string id in ids)
+                {
+                    _reactionsRepository.DeleteByKweetId(x => x.Id == id);
+                }
+
+                _reactionsRepository.DeleteManyByUserID(x => x.UserId == userId);
+            });
         }
 
         public List<GetReactionDTO> GetReactionsByTweet(string kweetId)

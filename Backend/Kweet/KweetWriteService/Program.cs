@@ -11,6 +11,8 @@ using KweetWriteService.Services.Reaction;
 using KweetWriteService.Services.Likes;
 using KweetWriteService.DTOs.SharedClasses;
 using MassTransit;
+using KweetWriteService.Consumers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -36,8 +38,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     }
     else
     {
-        options.UseMySql(builder.Configuration.GetConnectionString("KubernetesConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
-        //options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
+        //options.UseMySql(builder.Configuration.GetConnectionString("KubernetesConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
+        options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
     }
     //options.UseMySql(builder.Configuration.GetConnectionString("AzureDeployment"), new MySqlServerVersion(new Version(5, 7, 31)));
 });
@@ -83,12 +85,21 @@ builder.Services.AddMassTransit(mt => mt.AddMassTransit(x => {
     //        c.Password(rabbitMqSettings.Password);
     //    });
     //});
-
+    mt.AddConsumer<GDPRDeleteConsumer>();
     x.UsingRabbitMq((ctx, cfg) => {
         cfg.Host(rabbitMqSettings.Uri, "/", c => {
             c.Username(rabbitMqSettings.UserName);
             c.Password(rabbitMqSettings.Password);
         });
+        cfg.ReceiveEndpoint("GDPR", c =>
+        {
+            c.ConfigureConsumer<GDPRDeleteConsumer>(ctx);
+
+        });
+
+
+
+
 
         cfg.ConfigureEndpoints(ctx);
     });

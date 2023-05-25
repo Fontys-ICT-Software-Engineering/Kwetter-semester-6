@@ -27,5 +27,11 @@ namespace KweetReadService.Data.Reaction
 
         Task ReplaceOneAsync(TDocument document);
 
+        Task DeleteByKweetId(
+        Expression<Func<TDocument, bool>> filterExpression);
+
+        Task DeleteManyByUserID(
+        Expression<Func<TDocument, bool>> filterExpression);
+
     }
 }

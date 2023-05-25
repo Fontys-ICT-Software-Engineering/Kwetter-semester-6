@@ -41,6 +41,7 @@ namespace KweetReadService.Data.Likes
         public virtual void FindOneAndDeleteAsync(
         Expression<Func<TDocument, bool>> filterExpression)
         {
+            
             _collection.FindOneAndDeleteAsync(filterExpression).Wait();
         }
 
@@ -60,6 +61,19 @@ namespace KweetReadService.Data.Likes
         {
             return _collection.Find(filterExpression).AnyAsync();
         }
+
+        public virtual Task DeleteByKweetId(
+        Expression<Func<TDocument, bool>> filterExpression)
+        {
+            return _collection.DeleteOneAsync(filterExpression);
+        }
+
+        public virtual Task DeleteManyByUserID(
+        Expression<Func<TDocument, bool>> filterExpression)
+        {
+            return _collection.DeleteManyAsync(filterExpression);
+        }
+
 
     }
 }

@@ -22,5 +22,11 @@ namespace KweetReadService.Data.Likes
 
         Task<bool> IsLikeByUser(Expression<Func<TDocument, bool>> filterExpression);
 
+        Task DeleteByKweetId(
+        Expression<Func<TDocument, bool>> filterExpression);
+
+        Task DeleteManyByUserID(
+        Expression<Func<TDocument, bool>> filterExpression);
+
     }
 }

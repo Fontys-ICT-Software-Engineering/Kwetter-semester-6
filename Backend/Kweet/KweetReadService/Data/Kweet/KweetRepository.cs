@@ -90,5 +90,17 @@ namespace KweetReadService.Data.Kweet
             await _collection.FindOneAndReplaceAsync(filter, document);
         }
 
+        public virtual Task DeleteByKweetId(
+        Expression<Func<TDocument, bool>> filterExpression)
+        {
+            return _collection.DeleteOneAsync(filterExpression);
+        }
+
+        public virtual Task DeleteManyByUserID(
+        Expression<Func<TDocument, bool>> filterExpression)
+        {
+            return _collection.DeleteManyAsync(filterExpression);
+        }
+
     }
 }

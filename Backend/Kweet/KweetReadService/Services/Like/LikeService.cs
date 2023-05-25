@@ -58,5 +58,17 @@ namespace KweetReadService.Services.Like
             return _likeRepository.IsLikeByUser(x => x.KweetID == kweetId && x.UserID == UserId);
         }
 
+        public Task GDPRDelete(List<string> ids, string userId)
+        {
+            return Task.Run(() =>
+            {
+                foreach(string id in ids)
+                {
+                    _likeRepository.DeleteByKweetId(x => x.Id == id);
+                }
+
+                _likeRepository.DeleteManyByUserID(x => x.UserID == userId);
+            });
+        }
     }
 }

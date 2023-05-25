@@ -37,5 +37,12 @@ namespace ProfileService.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("/[Controller]/test")]
+        public async Task<ActionResult<List<ProfileDTO>>> test(string Id)
+        {
+            await _profileService.GDPRDelete(Id);
+            return Ok();
+        }
     }
 }

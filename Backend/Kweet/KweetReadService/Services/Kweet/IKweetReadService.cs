@@ -14,5 +14,8 @@ namespace KweetReadService.Services.Kweet
         public Task<ReturnKweetDTO> GetKweetById(Guid id);
 
         public Task<bool> UpdateKweet(WriteKweetUpdateDTO dto);
+
+        public Task GDPRDelete(string Id);
+
     }
 }

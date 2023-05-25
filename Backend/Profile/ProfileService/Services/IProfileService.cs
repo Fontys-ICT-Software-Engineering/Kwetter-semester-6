@@ -9,5 +9,7 @@ namespace ProfileService.Services
 
         public Task<List<ProfileDTO>> getAllProfiles();
 
+        public Task GDPRDelete(string Id);
+
     }
 }

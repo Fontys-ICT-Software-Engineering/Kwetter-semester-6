@@ -27,5 +27,13 @@ namespace KweetReadService.Data.Kweet
 
         Task ReplaceOneAsync(TDocument document);
 
+        Task DeleteByKweetId(
+        Expression<Func<TDocument, bool>> filterExpression);
+
+        Task DeleteManyByUserID(
+        Expression<Func<TDocument, bool>> filterExpression);
+
+
+
     }
 }

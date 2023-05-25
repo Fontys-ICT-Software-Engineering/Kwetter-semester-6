@@ -23,7 +23,7 @@ export default function Feed() {
   useEffect(() => {
     var config = {
       method: 'get',
-      url: url.kweetUrl,
+      url: url.kweetreadurl + "AllKweets",
       headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + cookies.get(jwt)

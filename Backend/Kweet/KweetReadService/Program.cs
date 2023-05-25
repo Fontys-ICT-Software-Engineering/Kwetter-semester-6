@@ -1,3 +1,4 @@
+using KweetReadService.Consumers.GDPR;
 using KweetReadService.Consumers.Kweet;
 using KweetReadService.Consumers.Like;
 using KweetReadService.Consumers.Reaction;
@@ -21,6 +22,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 
@@ -29,6 +31,14 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("Mo
 builder.Services.AddSingleton<IMongoDbSettings>(ServiceProvider =>
 ServiceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+                      });
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -95,6 +105,9 @@ builder.Services.AddMassTransit(mt => mt.AddMassTransit(x =>
     mt.AddConsumer<DeleteReactionKweetConsumer>();
     mt.AddRequestClient<DeleteReactionKweetConsumer>();
 
+    mt.AddConsumer<GDPRDeleteConsumer>();
+    mt.AddRequestClient<GDPRDeleteConsumer>();
+
     x.UsingRabbitMq((ctx, cfg) =>
     {
         //cfg.Host(rabbitMqSettings.Uri, c =>
@@ -136,6 +149,10 @@ builder.Services.AddMassTransit(mt => mt.AddMassTransit(x =>
         {
             c.ConfigureConsumer<DeleteReactionKweetConsumer>(ctx);
 
+        });
+        cfg.ReceiveEndpoint("GDPR", c =>
+        {
+            c.ConfigureConsumer<GDPRDeleteConsumer>(ctx);
         });
     });
 

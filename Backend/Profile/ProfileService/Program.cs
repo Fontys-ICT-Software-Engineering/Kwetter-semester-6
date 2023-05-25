@@ -6,6 +6,7 @@ using System.Text;
 using ProfileService.Services;
 using Microsoft.EntityFrameworkCore;
 using ProfileService.Data;
+using ProfileService.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +22,8 @@ builder.Services.AddDbContext<DataContext>(options =>
     }
     else
     {
-        //options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
-        options.UseMySql(builder.Configuration.GetConnectionString("KubernetesConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
+        options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
+        //options.UseMySql(builder.Configuration.GetConnectionString("KubernetesConnection"), new MySqlServerVersion(new Version(5, 7, 31)));
     }
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -34,6 +35,7 @@ builder.Services.AddScoped<IProfileService, ProfileServiceLayer>();
 var rabbitMqSettings = builder.Configuration.GetSection(nameof(RabbitMqSettings)).Get<RabbitMqSettings>();
 builder.Services.AddMassTransit(mt => mt.AddMassTransit(x => {
     mt.AddConsumer<ProfileConsumer>();
+    mt.AddConsumer<DeleteProfileConsumer>();
     x.UsingRabbitMq((ctx, cfg) => {
         cfg.Host(rabbitMqSettings.Uri, c => {
             c.Username(rabbitMqSettings.UserName);
@@ -43,6 +45,10 @@ builder.Services.AddMassTransit(mt => mt.AddMassTransit(x => {
         {
             c.ConfigureConsumer<ProfileConsumer>(ctx);
 
+        });
+        cfg.ReceiveEndpoint("GDPR", c =>
+        {
+            c.ConfigureConsumer<DeleteProfileConsumer>(ctx);
         });
     });
 }));
