@@ -62,7 +62,7 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: /run/secrets/mysql-pwd
+      MYSQL_ROOT_PASSWORD: example
     secrets:
       - mysql-pwd
   mongodb:

@@ -193,7 +193,44 @@ namespace Kweet.Services.Kweet
             }
             return false;
         }
-     
+
+        public async Task GDPRDelete(string Id)
+        {
+            List<KweetModel> models = _dataContext.Kweets.Where(x => x.Id == Guid.Parse(Id)).ToList();
+            List<Guid> ids = GetKweetIDs(models);
+            await _dataContext.Kweets.Where(x => x.User == Id).ExecuteDeleteAsync();
+
+            DeleteReaction(ids, Id);
+            DeleteLike(ids, Id);
+        }
+
+        private List<Guid> GetKweetIDs(List<KweetModel> models) 
+        {
+            List<Guid> res = new List<Guid>();
+            foreach (KweetModel model in models) 
+            {
+                res.Add(model.Id);            
+            }
+            return res;
+        }
+
+        private void DeleteReaction(List<Guid> ids, string Id)
+        {
+            foreach (Guid id in ids)
+            {
+                _dataContext.Reactions.Where(x => x.Id == id).ExecuteDeleteAsync();
+            }
+            _dataContext.Reactions.Where(x => x.UserId == Id).ExecuteDeleteAsync();
+        }
+
+        private void DeleteLike(List<Guid> ids, string Id)
+        {
+            foreach(Guid id in ids)
+            {
+                _dataContext.Likes.Where(x => x.Id == id).ExecuteDeleteAsync();
+            }
+            _dataContext.Likes.Where(x => x.UserID == Id).ExecuteDeleteAsync();
+        }
 
     }
 

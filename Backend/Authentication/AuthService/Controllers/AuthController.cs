@@ -92,8 +92,6 @@ namespace AuthService.Controllers
         [Authorize]
         public async Task<ActionResult<string>> validateUser()
         {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            string userID = getUserID(identity);
             return Ok("user Validated!");
         }
 
@@ -101,7 +99,7 @@ namespace AuthService.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult<string>> validateAdmin()
         {
-            return Ok("user Validated!");
+            return Ok("Admin Validated!");
         }
 
         [HttpPost("/[Controller]/rabbitMq")]
@@ -109,6 +107,22 @@ namespace AuthService.Controllers
         {
             await _publishEndpoint.Publish<RegisterUserDTO>(dto);
             return Ok("message sent");
+        }
+
+        [HttpPost("/[Controller]/GDPR")]
+        public async Task<ActionResult> GDPRDelete(string email)
+        {
+            try
+            {
+                //normaal hier 
+                //string ID = getUserID(Identity)
+                await _authService.GDPRDelete(email); 
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         private string getUserID(ClaimsIdentity identity)

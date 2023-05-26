@@ -1,11 +1,13 @@
 ﻿using AuthService.Data;
 using AuthService.DTOs;
 using AuthService.Models;
+using AuthService.Models.RabbitMq;
 using BCrypt.Net;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Sharedclasses.RabbitMq;
 using System.Reflection;
 
 namespace AuthService.Services.Authentication
@@ -119,6 +121,30 @@ namespace AuthService.Services.Authentication
             }
             return token;
         }
+
+        public async Task<bool> GDPRDelete(string Id)
+        {
+            //delete authorization
+            //User user = await _dataContext.users.SingleAsync(u => u.Id == Guid.Parse(Id));
+
+            //_dataContext.users.Remove(user);
+
+            //delete profile
+
+            await _publishEndpoint.Publish<GDPRDelete>(new GDPRDelete(Id));
+
+            //delete writeKweet
+
+            //delete readKweet
+
+            return true;
+        }
+
+
+
+
+
+
 
     }
 }

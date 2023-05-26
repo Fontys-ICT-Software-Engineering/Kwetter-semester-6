@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ProfileService.Data;
 using ProfileService.DTOs;
 using ProfileService.Models;
+using System.Linq;
 
 namespace ProfileService.Services
 {
@@ -70,6 +71,11 @@ namespace ProfileService.Services
             }
             return result;
 
+        }
+
+        public async Task GDPRDelete(string Id)
+        {
+           await _dataContext.Profiles.Where(x => x.AuthId == Guid.Parse(Id)).ExecuteDeleteAsync();
         }
     }
 }

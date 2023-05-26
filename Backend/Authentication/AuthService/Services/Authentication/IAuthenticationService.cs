@@ -9,5 +9,8 @@ namespace AuthService.Services.Authentication
         public Task<CreateUserDTO> Register(CreateUserDTO userDTO);
 
         public Task<TokenDTO> GenerateToken(LoginDTO dto);
+
+        public Task<bool> GDPRDelete(string Id);
+
     }
 }

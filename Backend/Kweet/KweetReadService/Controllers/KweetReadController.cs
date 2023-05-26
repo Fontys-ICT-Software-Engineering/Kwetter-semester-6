@@ -26,6 +26,7 @@ namespace KweetReadService.Controllers
         }
 
         [HttpGet("AllKweets")]
+        [Authorize]
         public async Task<ActionResult<List<ReturnKweetDTO>>> GetAllKweetsByUserID()
         {
             //var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -40,6 +41,25 @@ namespace KweetReadService.Controllers
             {
                 return BadRequest(ex.Message);    
             }
+        }
+
+        [HttpGet("ReactionsByKweet")]
+        [Authorize]
+        public ActionResult<List<GetReactionDTO>> GetAllReactionsByKweet(string kweetId)
+        {
+            try
+            {
+                List<GetReactionDTO> response = _reactionService.GetReactionsByTweet(kweetId);
+                if (response == null) return NotFound("no Reactions Found");
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
+
         }
 
         private string getUserID(ClaimsIdentity identity)
@@ -60,25 +80,6 @@ namespace KweetReadService.Controllers
             }
             return Id;
         }
-
-        [HttpGet("ReactionsByKweet")]
-        public ActionResult<List<GetReactionDTO>> GetAllReactionsByKweet(string kweetId)
-        {
-            try
-            {
-                List<GetReactionDTO> response = _reactionService.GetReactionsByTweet(kweetId);
-                if (response == null) return NotFound("no Reactions Found");
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-
-
-        }
-
 
 
 
