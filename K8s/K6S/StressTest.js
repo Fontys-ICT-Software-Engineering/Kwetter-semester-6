@@ -6,7 +6,7 @@ export const options = {
         loadimpact: {
           projectID: 3642900,
           // Test runs with the same name groups test runs together
-          name: "Load balancing Test"
+          name: "Load balancing Test 2"
         }
       },
     stages: [
@@ -19,8 +19,8 @@ export const options = {
 export default function () {
 
     http.batch([
-        ['GET', 'http://localhost:5050/KweetRead/AllKweets'],
-        ['GET', 'http://localhost:5050/KweetRead/ReactionsByKweet?kweetId=1476cc1f-bbee-431e-93aa-7d9898aaed78']
+        ['GET', 'http://kwetter.com/kweetread/AllKweets'],
+        ['GET', 'http://kwetter.com/kweetread/reactionsbykweet?KweetID=0868032b-d764-4d5a-a123-65cbedea357b']
     ])
     sleep(1)
 }

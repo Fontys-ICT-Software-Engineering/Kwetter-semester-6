@@ -78,3 +78,52 @@ C:\Users\Nickv\Documents\School\Semester 6\individueel\Kwetter-semester-6\KweetW
 ]
 
 
+
+
+
+
+leeswijzer
+verwijzingen naar leeruitkomsten
+reflectie per leeruitkomsten en opsomming per beroepsproduct
+feedpulse invullen (cap therum) keuze voor mongodb
+owasp
+validatie authenticatie
+valideren in pipeline
+azure functions
+AVG
+event sourcing onderzoek
+
+maartje
+Piet
+Bram
+Mijntje
+Liam
+Nick
+Manou
+Mika
+Kane
+Kylian
+Stef
+Kiki
+Daan
+joppe
+Wiar
+Martijn
+
+
+
+
+
+
+
+vraag 8 noteren dat er geen demo/test wordt gedaan met externe tool
+
+vraag 6 omwisselen voor tools. uitleggen welke tools welke methodes gebruiker
+
+vraag 7 en 8 omwisselen
+
+vraag 8 (nu 7) mentionen valideren prototype.
+
+devops access token: bwqrrdadlxgjzumejioub355yamjlnlat2bbtuwdqvhkezchl7aq
+
+k6 run --out json=Output.json StressTest.js

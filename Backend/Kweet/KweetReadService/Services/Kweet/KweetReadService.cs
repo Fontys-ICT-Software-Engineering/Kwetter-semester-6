@@ -4,6 +4,7 @@ using KweetReadService.DTOs.KweetDTO;
 using KweetReadService.Models;
 using KweetReadService.Services.Like;
 using KweetReadService.Services.Reaction;
+using MongoDB.Driver;
 using SharedClasses.Kweet;
 
 namespace KweetReadService.Services.Kweet
@@ -105,7 +106,7 @@ namespace KweetReadService.Services.Kweet
                 return false;
             }
         }
-
+        
         public async Task<bool> DeleteKweet(WriteDeleteKweetDTO dto)
         {
             try
@@ -170,6 +171,36 @@ namespace KweetReadService.Services.Kweet
 
                 throw;
             }
+        }
+
+        public async Task GDPRDelete(string Id)
+        {
+            try
+            {
+                // do something
+                await _kweetRepository.FindByIdAsync(Id);
+
+                IEnumerable<KweetModel> models = _kweetRepository.FilterBy(x => x.User == Id);
+
+                List<string> KweetIds = new List<string>();  
+                foreach(KweetModel model in models)
+                {
+                    KweetIds.Add(model.Id);
+                }
+
+                DeleteData(Id);     
+                await _likeService.GDPRDelete(KweetIds, Id);
+                await _reactionService.GDPRDelete(KweetIds, Id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private async void DeleteData(string Id)
+        {
+            await _kweetRepository.DeleteManyByUserID(x => x.User == Id);
         }
     }
 }
