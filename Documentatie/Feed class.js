@@ -127,3 +127,32 @@ vraag 8 (nu 7) mentionen valideren prototype.
 devops access token: bwqrrdadlxgjzumejioub355yamjlnlat2bbtuwdqvhkezchl7aq
 
 k6 run --out json=Output.json StressTest.js
+
+
+
+
+NAMESPACE=ingress-basic
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx --create-namespace --namespace ingress-basic --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
+
+
+kubectl create namespace ingress-nginx
+
+helm repo add 
+
+$Namespace = 'ingress-basic'
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx `
+  --create-namespace `
+  --namespace ingress-basic `
+  --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
+  
+  
+34.159.70.126/api/return-processed
+34.159.70.126/api/submit-raw
