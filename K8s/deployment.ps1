@@ -5,7 +5,7 @@
 kubectl apply -f .\Authservice\authservice-db-deployment.yaml
 kubectl apply -f .\KweetReadService\mongodb-deployment.yaml
 kubectl apply -f .\KweetWriteService\KweetWriteservice-db-deployment.yaml
-# kubectl apply -f .\ProfileService\ProfileService-db-deployment.yaml
+kubectl apply -f .\ProfileService\ProfileService-db-deployment.yaml
 
 Start-Sleep -Seconds 35
 
@@ -18,7 +18,7 @@ Start-Sleep -Seconds 30
 # Creation of the microservices itself
 
 # creation of the messagebus queus
-# kubectl apply -f .\ProfileService\Profileservice-deployment.yaml
+kubectl apply -f .\ProfileService\Profileservice-deployment.yaml
 kubectl apply -f .\KweetReadService\kweetread-deployment.yaml
 
 Start-Sleep -Seconds 10
