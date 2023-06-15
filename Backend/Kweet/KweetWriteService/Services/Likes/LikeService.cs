@@ -27,7 +27,7 @@ namespace KweetWriteService.Services.Likes
         {
             PostLikeKweetDTO res = new PostLikeKweetDTO();
             LikeStatus likeStatus;
-
+            bool status = false;
             try
             {
                 if (!_dataContext.Kweets.Any(k => k.Id.ToString() == dto.KweetId)) throw new Exception("Kweet id does not exist");
@@ -44,6 +44,7 @@ namespace KweetWriteService.Services.Likes
                     _dataContext.Likes.Add(like);
                     _dataContext.SaveChanges();
                     likeStatus = LikeStatus.CREATE;
+                    status = true;
                 }
 
                 WriteLikeDTO rabbit = new WriteLikeDTO
@@ -57,7 +58,7 @@ namespace KweetWriteService.Services.Likes
 
                 if (!response.Message.Succes) throw new Exception();
 
-                return true;
+                return status;
             }
             catch (Exception)
             {

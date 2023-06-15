@@ -132,7 +132,7 @@ function Post(props) {
 
     var config = {
       method: 'Put',
-      url: url.kweetUrl,
+      url: url.kweetwriteurl + "update",
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + cookies.get(jwt)
@@ -166,7 +166,6 @@ function Post(props) {
       //navigate("/login")
       console.log(err);
     });
-
   }
 
   function showComments(id) {

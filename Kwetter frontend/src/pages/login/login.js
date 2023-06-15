@@ -78,7 +78,6 @@ export default function Login() {
           <i className="material-icons-outlined">email</i>
           <input className="loginform-input"
             name="email"
-            type="email"
             placeholder="Email"
             //onMouseOver={() => this.setState({ focus: { email: true } })}
             onChange={inputChangedHandler}

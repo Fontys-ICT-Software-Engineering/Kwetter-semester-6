@@ -24,7 +24,7 @@ export default function CreateTweet(id) {
 
     var config = {
       method: 'post',
-      url: url.kweetUrl,
+      url: url.kweetwriteurl + "post",
       headers: {
         'Content-Type': 'application/json'
       },

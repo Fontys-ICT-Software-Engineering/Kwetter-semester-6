@@ -31,6 +31,10 @@ builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("Mo
 builder.Services.AddSingleton<IMongoDbSettings>(ServiceProvider =>
 ServiceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
+// Add services to the container.
+
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -166,6 +170,7 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

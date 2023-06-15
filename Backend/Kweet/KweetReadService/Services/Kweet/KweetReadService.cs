@@ -32,8 +32,7 @@ namespace KweetReadService.Services.Kweet
                 IEnumerable<KweetModel> kweets = _kweetRepository.FilterBy(filter => filter.User == userId);
 
                 List<ReturnKweetDTO> response = new List<ReturnKweetDTO>();
-
-                
+          
                 foreach (KweetModel kweet in kweets) 
                 {
                     response.Add(

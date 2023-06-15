@@ -15,7 +15,7 @@ export function deleteTweet(id) {
     const cookies = new Cookies();
     var config = {
         method: 'delete',
-        url: url.kweetUrl + "?id=" + id,
+        url: url.kweetwriteurl + "delete/?id=" + id,
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + cookies.get("jwt_authorization")
