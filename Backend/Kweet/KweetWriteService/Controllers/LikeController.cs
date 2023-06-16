@@ -1,8 +1,10 @@
 ﻿using Kweet.Services.Kweet;
 using KweetWriteService.DTOs.KweetDTO;
 using KweetWriteService.DTOs.LikeDTO;
+using KweetWriteService.Models;
 using KweetWriteService.Services.Likes;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace KweetWriteService.Controllers
 {
@@ -39,10 +41,32 @@ namespace KweetWriteService.Controllers
             }
         }
 
+        [HttpGet("Likes")]
+        public List<LikeModel> GetLikes() 
+        {
+            try
+            {
+                return _likeService.GetLikesPerKweet();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
+        [HttpDelete]
+        public void Delete(Guid id) 
+        {
+            try
+            {
+                _likeService.DeleteLike(id);
 
+            }
+            catch (Exception)
+            {
 
-
-
+                throw;
+            } 
+        }
     }
 }

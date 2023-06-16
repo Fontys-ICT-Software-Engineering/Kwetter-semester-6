@@ -64,8 +64,20 @@ namespace KweetWriteService.Services.Likes
             {
                 return false;
                 throw;
-            }
-
+            }     
         }
+
+        public List<LikeModel> GetLikesPerKweet()
+        {
+            return _dataContext.Likes.ToList(); 
+        }
+
+        public void DeleteLike(Guid id)
+        {
+            _dataContext.Likes.Remove(_dataContext.Likes.Single(x => x.Id == id));
+            _dataContext.SaveChanges();
+        }
+
+
     }
 }
